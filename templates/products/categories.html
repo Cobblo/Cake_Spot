@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cakes | Cake Spot{% endblock %}
+
+{% block content %}
+
+<section class="all-recipes-page">
+
+    <div class="section-title recipe-title">
+        <h2>ALL CAKES</h2>
+        <div class="title-divider">
+            <span>🧁</span>
+        </div>
+    </div>
+
+    <div class="cake-filter-menu">
+        <a href="{% url 'categories' %}"
+           class="{% if not selected_category %}active{% endif %}">
+            All
+        </a>
+
+        {% for category in categories %}
+        <a href="{% url 'categories' %}?category={{ category.slug }}"
+           class="{% if selected_category == category.slug %}active{% endif %}">
+            {{ category.name }}
+        </a>
+        {% endfor %}
+    </div>
+
+    <div class="cake-list-grid">
+
+        {% for product in products %}
+        <div class="cake-list-card">
+
+            <a href="{% url 'product_detail' product.slug %}">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            </a>
+
+            <h3>
+                <a href="{% url 'product_detail' product.slug %}">
+                    {{ product.name }}
+                </a>
+            </h3>
+
+            <p class="cake-price">₹{{ product.price }}</p>
+
+            <a href="{% url 'product_detail' product.slug %}" class="add-cart-btn">
+                ADD TO CART
+            </a>
+
+        </div>
+        {% empty %}
+        <p>No cakes found in this category.</p>
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

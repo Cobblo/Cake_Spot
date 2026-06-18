@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Cake Spot{% endblock %}</title>
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="cake-header">
+    <div class="header-inner">
+
+        <!-- LEFT -->
+        <div class="logo">
+            <a href="/">
+                <img src="{% static 'images/logo.png' %}" alt="Cake Spot">
+            </a>
+        </div>
+
+        <!-- CENTER -->
+        <nav class="nav-menu">
+            <a href="/">HOME</a>
+            <a href="{% url 'categories' %}">CAKES</a>
+            <a href="#">OCCASIONS</a>
+            <a href="#">CUSTOM CAKES</a>
+            <a href="#">CONTACT</a>
+        </nav>
+
+        <!-- RIGHT -->
+        <div class="header-icons">
+
+            <a href="#" class="icon-link">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </a>
+
+            <a href="#" class="icon-link">
+                <i class="fa-regular fa-user"></i>
+            </a>
+
+            <a href="{% url 'cart' %}" class="cart-icon icon-link">
+                <i class="fa-solid fa-basket-shopping"></i>
+
+                {% if cart_count > 0 %}
+                    <small>{{ cart_count }}</small>
+                {% endif %}
+            </a>
+
+        </div>
+
+    </div>
+</header>
+
+{% if messages %}
+<div class="messages-container">
+    {% for message in messages %}
+        <div class="alert-message {{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% block content %}
+{% endblock %}
+
+<!-- FOOTER TOP -->
+<section class="footer-newsletter">
+    <div class="newsletter-inner">
+        <div class="newsletter-text">
+            <span class="mail-icon">✉</span>
+            <div>
+                <h3>GET OUR NEWSLETTER</h3>
+                <p>Sign up to get fresh cake offers and updates.</p>
+            </div>
+        </div>
+
+        <form class="newsletter-form">
+            <input type="email" placeholder="Email Address">
+            <button type="submit">SEND</button>
+        </form>
+
+        <div class="social-icons">
+            <a href="#">f</a>
+            <a href="#">t</a>
+            <a href="#">p</a>
+            <a href="#">g+</a>
+            <a href="#">▶</a>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-col">
+            <h3>ABOUT CAKE SPOT</h3>
+            <p>Cake Spot brings freshly baked cakes, pastries and custom celebration cakes for birthdays, weddings, anniversaries and special moments.</p>
+            <p class="footer-contact">
+                Phone: <span>+91 98765 43210</span><br>
+                Email: <span>cakespot@gmail.com</span>
+            </p>
+        </div>
+
+        <div class="footer-col">
+            <h3>QUICK LINKS</h3>
+            <a href="/">Home</a>
+            <a href="#">About</a>
+            <a href="#">Cakes</a>
+            <a href="#">Shop</a>
+            <a href="#">Custom Cake</a>
+            <a href="#">Contact</a>
+        </div>
+
+        <div class="footer-col">
+            <h3>OUR SERVICES</h3>
+            <a href="#">Birthday Cakes</a>
+            <a href="#">Wedding Cakes</a>
+            <a href="#">Photo Cakes</a>
+            <a href="#">Cupcakes</a>
+            <a href="#">Custom Cakes</a>
+            <a href="#">Door Delivery</a>
+        </div>
+
+        <div class="footer-col">
+            <h3>OUR CHENNAI BRANCHES</h3>
+            <p>📍 Iyyapanthangal</p>
+            <p>📍 Mangadu</p>
+            <p>📍 Kovur</p>
+            <p>📍 Porur</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 Cake Spot. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const alerts = document.querySelectorAll('.alert-message');
+
+    alerts.forEach(function(alert) {
+
+        setTimeout(function() {
+
+            alert.style.transition = "opacity 0.5s ease";
+            alert.style.opacity = "0";
+
+            setTimeout(function() {
+                alert.remove();
+            }, 500);
+
+        }, 3000);
+
+    });
+
+});
+</script>
+
+</body>
+</html>

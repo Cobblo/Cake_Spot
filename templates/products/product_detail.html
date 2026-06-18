@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} | Cake Spot{% endblock %}
+
+{% block content %}
+
+<section class="product-detail-page">
+
+    <div class="product-detail-container">
+
+        <div class="product-left">
+
+            <div class="thumbs">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" onclick="changeMainImage(this)">
+
+                {% for img in product.gallery.all %}
+                    <img src="{{ img.image.url }}" alt="{{ product.name }}" onclick="changeMainImage(this)">
+                {% endfor %}
+            </div>
+
+            <div class="main-product-image">
+                <img id="mainProductImage" src="{{ product.image.url }}" alt="{{ product.name }}">
+            </div>
+
+        </div>
+
+        <div class="product-right">
+
+            <h1>{{ product.name }}</h1>
+
+            <div class="detail-price">
+                ₹<span id="product-price">
+                    {% if default_weight %}
+                        {{ default_weight.price }}
+                    {% else %}
+                        {{ product.price }}
+                    {% endif %}
+                </span>
+                <span>Tax included</span>
+            </div>
+
+            <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                {% csrf_token %}
+
+                <div class="option-block">
+                    <h3>Egg or Eggless</h3>
+
+                    <button type="button" class="option-btn egg-btn active" data-egg="Egg">
+                        Egg
+                    </button>
+
+                    <button type="button" class="option-btn egg-btn" data-egg="Eggless">
+                        Eggless
+                    </button>
+                </div>
+
+                {% if weight_prices %}
+                <div class="option-block">
+                    <h3>Quantity</h3>
+
+                    {% for item in weight_prices %}
+                    <button type="button"
+                            class="option-btn weight-btn {% if forloop.first %}active{% endif %}"
+                            data-weight="{{ item.weight }}"
+                            data-price="{{ item.price }}">
+                        {{ item.weight }}
+                    </button>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="option-block">
+                    <h3>Message</h3>
+                    <input type="text"
+                           name="message"
+                           id="cake_message"
+                           class="cake-message"
+                           placeholder="Your Message...">
+                </div>
+
+                <input type="hidden" name="egg_type" id="egg_type" value="Egg">
+
+                <input type="hidden"
+                       name="weight"
+                       id="weight"
+                       value="{% if weight_prices %}{{ weight_prices.0.weight }}{% endif %}">
+
+                <input type="hidden"
+                       name="price"
+                       id="selected_price"
+                       value="{% if default_weight %}{{ default_weight.price }}{% else %}{{ product.price }}{% endif %}">
+
+                <button type="submit" class="detail-cart-btn">
+                    ADD TO CART
+                </button>
+            </form>
+
+            <p class="product-description">
+                {{ product.description }}
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+    function changeMainImage(thumbnail){
+        const mainImage = document.getElementById('mainProductImage');
+        mainImage.src = thumbnail.src;
+    }
+
+    const eggButtons = document.querySelectorAll('.egg-btn');
+    const eggInput = document.getElementById('egg_type');
+
+    eggButtons.forEach(function(button){
+        button.addEventListener('click', function(){
+            eggButtons.forEach(function(btn){
+                btn.classList.remove('active');
+            });
+
+            this.classList.add('active');
+            eggInput.value = this.dataset.egg;
+        });
+    });
+
+    const weightButtons = document.querySelectorAll('.weight-btn');
+    const priceBox = document.getElementById('product-price');
+    const weightInput = document.getElementById('weight');
+    const priceInput = document.getElementById('selected_price');
+
+    if(weightButtons.length > 0){
+        weightInput.value = weightButtons[0].dataset.weight;
+        priceInput.value = weightButtons[0].dataset.price;
+        priceBox.innerText = weightButtons[0].dataset.price;
+    }
+
+    weightButtons.forEach(function(button){
+        button.addEventListener('click', function(){
+            weightButtons.forEach(function(btn){
+                btn.classList.remove('active');
+            });
+
+            this.classList.add('active');
+
+            priceBox.innerText = this.dataset.price;
+            weightInput.value = this.dataset.weight;
+            priceInput.value = this.dataset.price;
+        });
+    });
+</script>
+
+{% endblock %}

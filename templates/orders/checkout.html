@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Checkout | Cake Spot{% endblock %}
+
+{% block content %}
+
+<section class="checkout-page">
+
+    <h1>Checkout</h1>
+
+    <div class="checkout-container">
+
+        <div class="checkout-form-box">
+            <h2>Delivery Details</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-row">
+                    <input type="text" name="first_name" placeholder="First Name" required>
+                    <input type="text" name="last_name" placeholder="Last Name" required>
+                </div>
+
+                <div class="form-row">
+                    <input type="email" name="email" placeholder="Email Address" required>
+                    <input type="text" name="phone" placeholder="Phone Number" required>
+                </div>
+
+                <textarea name="address" placeholder="Full Delivery Address" required></textarea>
+
+                <div class="form-row">
+                    <input type="text" name="city" placeholder="City" required>
+                    <input type="text" name="pincode" placeholder="Pincode" required>
+                </div>
+
+                <textarea name="order_note" placeholder="Order Note (optional)"></textarea>
+
+                <button type="submit" class="place-order-btn">
+                    Place Order
+                </button>
+            </form>
+        </div>
+
+        <div class="checkout-summary-box">
+            <h2>Order Summary</h2>
+
+            {% for item in cart_items %}
+            <div class="checkout-item">
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+
+                <div>
+                    <h3>{{ item.product.name }}</h3>
+                    <p>{{ item.egg_type }} / {{ item.weight }}</p>
+                    <p>Qty: {{ item.quantity }}</p>
+                    <strong>₹{{ item.row_total }}</strong>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="summary-line">
+                <span>Cart Total</span>
+                <strong>₹{{ total }}</strong>
+            </div>
+
+            <div class="summary-line">
+                <span>Shipping</span>
+                <strong>
+                    {% if shipping == 0 %}
+                        Free
+                    {% else %}
+                        ₹{{ shipping }}
+                    {% endif %}
+                </strong>
+            </div>
+
+            <div class="summary-line grand">
+                <span>Grand Total</span>
+                <strong>₹{{ grand_total }}</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

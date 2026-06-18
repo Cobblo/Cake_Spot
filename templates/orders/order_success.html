@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order Success | Cake Spot{% endblock %}
+
+{% block content %}
+
+<section class="order-success-page">
+
+    <div class="order-success-box">
+        <h1>🎉 Thank You!</h1>
+
+        <h2>Your order has been placed successfully.</h2>
+
+        <p>Order Number</p>
+        <h3>{{ order.order_number }}</h3>
+
+        <p>Status</p>
+        <h3>Placed</h3>
+
+        <p>Grand Total</p>
+        <h3>₹{{ order.grand_total }}</h3>
+
+        <p class="success-note">
+            We will contact you shortly to confirm your cake order.
+        </p>
+
+        <a href="/" class="continue-btn">Continue Shopping</a>
+    </div>
+
+</section>
+
+{% endblock %}

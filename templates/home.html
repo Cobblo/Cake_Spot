@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cake Spot{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+        <h4>FRESHLY BAKED EVERYDAY</h4>
+        <h1>Delicious Cakes For <br> Every Celebration</h1>
+        <p>Premium cakes handcrafted with love for birthdays, weddings, anniversaries and every special occasion.</p>
+        <a href="{% url 'categories' %}" class="hero-btn">Explore Cakes</a>
+    </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories">
+    <div class="section-title">
+        <h2>Our Categories</h2>
+    </div>
+
+    <div class="category-grid">
+        <a href="{% url 'categories' %}?category=birthday-cakes" class="category-card">
+            <h3>Birthday Cakes</h3>
+        </a>
+
+        <a href="{% url 'categories' %}?category=wedding-cake" class="category-card">
+            <h3>Wedding Cakes</h3>
+        </a>
+
+        <a href="{% url 'categories' %}?category=anniversary-cakes" class="category-card">
+            <h3>Anniversary Cakes</h3>
+        </a>
+
+        <a href="{% url 'categories' %}?category=custom-cakes" class="category-card">
+            <h3>Custom Cakes</h3>
+        </a>
+    </div>
+</section>
+
+<!-- BEST SELLERS -->
+<section class="products">
+    <div class="product-slider">
+        <div class="product-grid">
+            {% for product in best_sellers %}
+            <div class="product-card">
+                <a href="{% url 'product_detail' product.slug %}">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                </a>
+
+                <div class="product-info">
+                    <h3>
+                        <a href="{% url 'product_detail' product.slug %}">
+                            {{ product.name }}
+                        </a>
+                    </h3>
+                    <p>₹{{ product.price }}</p>
+                    <a href="{% url 'product_detail' product.slug %}" class="add-cart-btn">
+                        ADD TO CART
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="slider-dots">
+        <span class="active"></span>
+        <span></span>
+    </div>
+</section>
+
+{% endblock %}
