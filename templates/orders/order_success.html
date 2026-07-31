@@ -1,33 +1,481 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
-
-{% block title %}Order Success | Cake Spot{% endblock %}
 
 {% block content %}
 
-<section class="order-success-page">
+<section class="success-page">
 
-    <div class="order-success-box">
-        <h1>🎉 Thank You!</h1>
+    <div class="success-card">
 
-        <h2>Your order has been placed successfully.</h2>
+        <div class="success-icon">🎂</div>
 
-        <p>Order Number</p>
-        <h3>{{ order.order_number }}</h3>
+        <h1>Order Placed Successfully</h1>
 
-        <p>Status</p>
-        <h3>Placed</h3>
-
-        <p>Grand Total</p>
-        <h3>₹{{ order.grand_total }}</h3>
-
-        <p class="success-note">
-            We will contact you shortly to confirm your cake order.
+        <p>
+            Thank you for ordering from
+            <strong>Cake Spot</strong>.
         </p>
 
-        <a href="/" class="continue-btn">Continue Shopping</a>
+        <div class="order-info">
+
+            <div class="info-row">
+                <span>Order Number</span>
+                <strong>{{ order.order_number }}</strong>
+            </div>
+
+            <div class="info-row">
+                <span>Customer</span>
+                <strong>
+                    {{ order.first_name }}
+                    {{ order.last_name }}
+                </strong>
+            </div>
+
+            <div class="info-row">
+                <span>Email</span>
+                <strong>{{ order.email }}</strong>
+            </div>
+
+            <div class="info-row">
+                <span>Phone</span>
+                <strong>{{ order.phone }}</strong>
+            </div>
+
+            <div class="info-row">
+                <span>Cake Spot Branch</span>
+                <strong>{{ order.location }}</strong>
+            </div>
+
+            <div class="info-row">
+                <span>Payment Method</span>
+                <strong>{{ order.payment_method }}</strong>
+            </div>
+
+            <div class="info-row">
+                <span>Payment Status</span>
+                <strong>{{ order.payment_status }}</strong>
+            </div>
+
+            <div class="info-row">
+                <span>Order Status</span>
+                <strong>{{ order.status }}</strong>
+            </div>
+
+            <div class="info-row">
+                <span>Ordered On</span>
+                <strong>
+                    {{ order.created_at|date:"d M Y - h:i A" }}
+                </strong>
+            </div>
+
+        </div>
+
+        <div class="address-box">
+
+            <h3>Delivery Address</h3>
+
+            <p>
+                {{ order.address }}<br>
+                {{ order.city }} - {{ order.pincode }}
+            </p>
+
+            <div class="branch-details">
+
+                <span>Cake Spot Branch</span>
+
+                <strong>
+                    {{ order.location }}
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="items-box">
+
+            <h3>Ordered Items</h3>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Cake</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for item in order.items.all %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ item.product.name }}
+
+                                {% if item.weight %}
+                                    <br>
+
+                                    <small>
+                                        Weight: {{ item.weight }}
+                                    </small>
+                                {% endif %}
+
+                                {% if item.addons.exists %}
+                                    <br>
+
+                                    <small class="ordered-addon-title">
+                                        Add-ons:
+                                    </small>
+
+                                    <small>
+                                        {% for addon in item.addons.all %}
+                                            {{ addon.name }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+
+                                {% if item.message %}
+                                    <br>
+
+                                    <small>
+                                        Message: {{ item.message }}
+                                    </small>
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ item.quantity }}
+                            </td>
+
+                            <td>
+                                ₹{{ item.sub_total }}
+                            </td>
+
+                        </tr>
+
+                    {% empty %}
+
+                        <tr>
+                            <td colspan="3">
+                                No ordered items found.
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            <div class="order-total-box">
+
+                <div>
+
+                    <span>Cart Total</span>
+
+                    <strong>
+                        ₹{{ order.total }}
+                    </strong>
+
+                </div>
+
+                <div>
+
+                    <span>Shipping</span>
+
+                    <strong>
+
+                        {% if order.shipping == 0 %}
+
+                            Free
+
+                        {% else %}
+
+                            ₹{{ order.shipping }}
+
+                        {% endif %}
+
+                    </strong>
+
+                </div>
+
+                <div class="grand-total">
+
+                    <span>Grand Total</span>
+
+                    <strong>
+                        ₹{{ order.grand_total }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="success-buttons">
+
+            <a
+                href="/"
+                class="home-btn"
+            >
+                Continue Shopping
+            </a>
+
+            <a
+                href="{{ whatsapp_url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="whatsapp-btn"
+            >
+                WhatsApp Order
+            </a>
+
+        </div>
+
     </div>
 
 </section>
+
+<style>
+
+.success-page{
+    padding:70px 20px;
+    background:#fff7f2;
+}
+
+.success-card{
+    max-width:850px;
+    margin:auto;
+    background:#fff;
+    padding:45px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.success-icon{
+    font-size:60px;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.success-card h1{
+    text-align:center;
+    color:#3b0804;
+    margin-bottom:10px;
+}
+
+.success-card > p{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.order-info{
+    border:1px solid #eee;
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:25px;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 18px;
+    border-bottom:1px solid #eee;
+    gap:20px;
+}
+
+.info-row:last-child{
+    border-bottom:none;
+}
+
+.info-row span{
+    color:#666;
+}
+
+.info-row strong{
+    color:#3b0804;
+    text-align:right;
+}
+
+.address-box{
+    background:#fff6f0;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:25px;
+}
+
+.address-box h3,
+.items-box h3{
+    margin-bottom:10px;
+    color:#3b0804;
+}
+
+.address-box p{
+    line-height:1.7;
+    margin-bottom:18px;
+}
+
+.branch-details{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    padding-top:15px;
+    border-top:1px solid #eadbd5;
+}
+
+.branch-details span{
+    color:#666;
+}
+
+.branch-details strong{
+    color:#3b0804;
+    text-align:right;
+}
+
+.items-box table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.items-box th{
+    background:#fb6f83;
+    color:white;
+    padding:12px;
+    text-align:left;
+}
+
+.items-box td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+    vertical-align:top;
+    line-height:1.6;
+}
+
+.items-box small{
+    color:#69453f;
+}
+
+.ordered-addon-title{
+    color:#3b0804 !important;
+    font-weight:700;
+}
+
+.items-box th:nth-child(2),
+.items-box td:nth-child(2){
+    text-align:center;
+}
+
+.items-box th:last-child,
+.items-box td:last-child{
+    text-align:right;
+}
+
+.order-total-box{
+    max-width:360px;
+    margin-left:auto;
+    margin-top:25px;
+    border:1px solid #eee;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.order-total-box div{
+    display:flex;
+    justify-content:space-between;
+    padding:13px 16px;
+    border-bottom:1px solid #eee;
+}
+
+.order-total-box div:last-child{
+    border-bottom:none;
+}
+
+.grand-total{
+    background:#fff1eb;
+    color:#3b0804;
+    font-size:18px;
+}
+
+.success-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-top:35px;
+    flex-wrap:wrap;
+}
+
+.home-btn,
+.whatsapp-btn{
+    padding:14px 30px;
+    border-radius:40px;
+    text-decoration:none;
+    color:white;
+    font-weight:600;
+}
+
+.home-btn{
+    background:#fb6f83;
+}
+
+.whatsapp-btn{
+    background:#25D366;
+}
+
+@media(max-width:600px){
+
+    .success-page{
+        padding:40px 15px;
+    }
+
+    .success-card{
+        padding:25px;
+    }
+
+    .success-card h1{
+        font-size:28px;
+    }
+
+    .info-row{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:5px;
+    }
+
+    .info-row strong{
+        text-align:left;
+    }
+
+    .branch-details{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:5px;
+    }
+
+    .branch-details strong{
+        text-align:left;
+    }
+
+    .items-box{
+        overflow-x:auto;
+    }
+
+    .items-box table{
+        min-width:500px;
+    }
+
+    .order-total-box{
+        max-width:100%;
+    }
+
+}
+
+</style>
 
 {% endblock %}

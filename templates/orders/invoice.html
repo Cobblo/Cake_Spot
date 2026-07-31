@@ -1,0 +1,282 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page {
+            size: A4;
+            margin: 25px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            font-size: 13px;
+        }
+
+        .invoice-box {
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #2d130d;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            width: 120px;
+            margin-bottom: 8px;
+        }
+
+        .header h2 {
+            color: #4b2525;
+            margin: 5px 0;
+        }
+
+        .info-table {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .info-table td {
+            vertical-align: top;
+            padding: 5px;
+        }
+
+        .order-title {
+            background: #f7efe7;
+            padding: 10px;
+            color: #4b2525;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .items-table th {
+            background: #4b2525;
+            color: #fff;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .items-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        .item-detail {
+            margin-bottom: 4px;
+        }
+
+        .total-box {
+            width: 40%;
+            margin-left: auto;
+            margin-top: 25px;
+        }
+
+        .total-box table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .total-box td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .grand-total {
+            font-size: 18px;
+            font-weight: bold;
+            color: #4b2525;
+        }
+
+        .thank-you {
+            text-align: center;
+            margin-top: 35px;
+            color: #2d130d;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="invoice-box">
+
+    <div class="header">
+        <img
+            src="{% static 'images/logo.png' %}"
+            class="logo"
+            alt="Cake Spot"
+        >
+
+        <h2>Cake Spot</h2>
+
+        <p>
+            Fresh cakes for every celebration
+        </p>
+    </div>
+
+    <div class="order-title">
+        Invoice - {{ order.order_number }}
+    </div>
+
+    <table class="info-table">
+        <tr>
+            <td>
+                <strong>Customer Details</strong>
+
+                <br><br>
+
+                {{ order.first_name }}
+                {{ order.last_name }}
+
+                <br>
+
+                {{ order.phone }}
+
+                {% if order.email %}
+                    <br>
+                    {{ order.email }}
+                {% endif %}
+            </td>
+
+            <td>
+                <strong>Delivery Address</strong>
+
+                <br><br>
+
+                {{ order.address }}
+
+                <br>
+
+                {{ order.city }} - {{ order.pincode }}
+
+                <br><br>
+
+                <strong>Cake Spot Branch</strong>
+
+                <br>
+
+                {{ order.location }}
+            </td>
+        </tr>
+    </table>
+
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Details</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in order.items.all %}
+                <tr>
+                    <td>
+                        {{ item.product.name }}
+                    </td>
+
+                    <td>
+                        {% if item.weight %}
+                            <div class="item-detail">
+                                <strong>Weight:</strong>
+                                {{ item.weight }}
+                            </div>
+                        {% endif %}
+
+                        {% if item.addons.all %}
+                            <div class="item-detail">
+                                <strong>Add-ons:</strong>
+
+                                {% for addon in item.addons.all %}
+                                    {{ addon.name }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% if item.message %}
+                            <div class="item-detail">
+                                <strong>Message:</strong>
+                                {{ item.message }}
+                            </div>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {{ item.quantity }}
+                    </td>
+
+                    <td>
+                        Rs. {{ item.price }}
+                    </td>
+
+                    <td>
+                        Rs. {{ item.sub_total }}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">
+                        No order items found.
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="total-box">
+        <table>
+            <tr>
+                <td>
+                    Cart Total
+                </td>
+
+                <td>
+                    Rs. {{ order.total }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Shipping
+                </td>
+
+                <td>
+                    Rs. {{ order.shipping }}
+                </td>
+            </tr>
+
+            <tr class="grand-total">
+                <td>
+                    Grand Total
+                </td>
+
+                <td>
+                    Rs. {{ order.grand_total }}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="thank-you">
+        Thank you for ordering from Cake Spot!
+    </div>
+
+</div>
+
+</body>
+</html>

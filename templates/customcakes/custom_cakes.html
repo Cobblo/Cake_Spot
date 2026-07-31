@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Custom Cakes | Cake Spot{% endblock %}
+
+{% block content %}
+
+<section class="custom-about">
+
+    <div class="section-title">
+        <h2>Why Choose Our Custom Cakes?</h2>
+    </div>
+
+    <div class="custom-features">
+
+        <div class="feature-box">
+            🎂
+            <h3>Personalized Designs</h3>
+            <p>Unique cakes designed specially for your celebration.</p>
+        </div>
+
+        <div class="feature-box">
+            🍓
+            <h3>Premium Ingredients</h3>
+            <p>Fresh cream and finest ingredients for rich taste.</p>
+        </div>
+
+        <div class="feature-box">
+            ❤️
+            <h3>Made With Love</h3>
+            <p>Every cake is handcrafted with care and passion.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="custom-form-section">
+
+    <div class="custom-form-box">
+
+        <h2>Custom Cake Request</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <div class="form-row">
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Your Name"
+                    required
+                >
+
+                <input
+                    type="text"
+                    name="phone"
+                    placeholder="Phone Number"
+                    required
+                >
+
+            </div>
+
+            <div class="form-row">
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email Address"
+                >
+
+                <select name="occasion" required>
+
+                    <option value="">
+                        Select Occasion
+                    </option>
+
+                    <option>
+                        Birthday
+                    </option>
+
+                    <option>
+                        Anniversary
+                    </option>
+
+                    <option>
+                        Wedding
+                    </option>
+
+                    <option>
+                        Baby Shower
+                    </option>
+
+                    <option>
+                        Engagement
+                    </option>
+
+                    <option>
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-row">
+
+                <select name="cake_weight" required>
+
+                    <option value="">
+                        Cake Weight
+                    </option>
+
+                    <option>
+                        1/2 Kg
+                    </option>
+
+                    <option>
+                        1 Kg
+                    </option>
+
+                    <option>
+                        1.5 Kg
+                    </option>
+
+                    <option>
+                        2 Kg
+                    </option>
+
+                    <option>
+                        3 Kg
+                    </option>
+
+                    <option>
+                        5 Kg
+                    </option>
+
+                </select>
+
+                <select name="flavour" required>
+
+                    <option value="">
+                        Choose Flavour
+                    </option>
+
+                    <option>
+                        Vanilla
+                    </option>
+
+                    <option>
+                        Chocolate
+                    </option>
+
+                    <option>
+                        Black Forest
+                    </option>
+
+                    <option>
+                        Butterscotch
+                    </option>
+
+                    <option>
+                        Red Velvet
+                    </option>
+
+                    <option>
+                        Strawberry
+                    </option>
+
+                    <option>
+                        Blueberry
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-row">
+
+                <input
+                    type="file"
+                    name="reference_image"
+                >
+
+            </div>
+
+            <input
+                type="text"
+                name="message_on_cake"
+                placeholder="Message on Cake"
+            >
+
+            <textarea
+                name="special_note"
+                rows="5"
+                placeholder="Special Instructions"
+            ></textarea>
+
+            <textarea
+                name="address"
+                rows="4"
+                placeholder="Delivery Address"
+            ></textarea>
+
+            <button
+                type="submit"
+                class="custom-submit-btn"
+            >
+                Submit Request
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

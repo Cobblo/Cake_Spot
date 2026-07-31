@@ -2,63 +2,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{% block title %}Cake Spot{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Cake Spot{% endblock %}</title>
 
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
 
-<!-- Font Awesome Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+
+    {% block extra_css %}{% endblock %}
 </head>
 
 <body>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/919876543210?text=Hi%20Cake%20Spot,%20I%20would%20like%20to%20order%20a%20cake."
+   class="whatsapp-float"
+   target="_blank">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
 
 <!-- HEADER -->
 <header class="cake-header">
     <div class="header-inner">
 
-        <!-- LEFT -->
         <div class="logo">
             <a href="/">
                 <img src="{% static 'images/logo.png' %}" alt="Cake Spot">
             </a>
         </div>
 
-        <!-- CENTER -->
-        <nav class="nav-menu">
-            <a href="/">HOME</a>
+        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <nav class="nav-menu" id="navMenu">
+
+            <button type="button" class="mobile-menu-close" id="mobileMenuClose">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <a href="{% url 'about' %}">ABOUT</a>
             <a href="{% url 'categories' %}">CAKES</a>
-            <a href="#">OCCASIONS</a>
-            <a href="#">CUSTOM CAKES</a>
-            <a href="#">CONTACT</a>
+
+            <div class="nav-dropdown">
+                <a href="#" class="nav-drop-link" id="occasionBtn">OCCASIONS</a>
+
+                <div class="nav-dropdown-menu" id="occasionMenu">
+                    <a href="{% url 'categories' %}?category=birthday-cakes">Birthday Cakes</a>
+                    <a href="{% url 'categories' %}?category=wedding-cake">Wedding Cakes</a>
+                    <a href="{% url 'categories' %}?category=anniversary-cake">Anniversary Cakes</a>
+                </div>
+            </div>
+
+            <a href="{% url 'custom_cakes' %}">CUSTOM CAKES</a>
+            <a href="{% url 'branches' %}">LOCATIONS</a>
+            <a href="#contact" id="contactNavLink">CONTACT</a>
         </nav>
 
-        <!-- RIGHT -->
         <div class="header-icons">
 
-            <a href="#" class="icon-link">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </a>
-
-            <a href="#" class="icon-link">
-                <i class="fa-regular fa-user"></i>
-            </a>
+            <form class="header-search" action="{% url 'search' %}" method="GET">
+                <input type="text" name="keyword" placeholder="Search Cakes..." required>
+                <button type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
 
             <a href="{% url 'cart' %}" class="cart-icon icon-link">
                 <i class="fa-solid fa-basket-shopping"></i>
-
                 {% if cart_count > 0 %}
                     <small>{{ cart_count }}</small>
                 {% endif %}
             </a>
 
-        </div>
+            <div class="user-menu">
+                <button type="button" class="user-btn">
+                    <i class="fa-regular fa-user"></i>
+                </button>
 
+                <div class="user-dropdown">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'my_account' %}">My Account</a>
+                        <a href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">Login</a>
+                        <a href="{% url 'signup' %}">Signup</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <button type="button" class="mobile-search-btn" id="mobileSearchBtn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+
+        </div>
+    </div>
+
+    <div class="mobile-search-box" id="mobileSearchBox">
+        <form action="{% url 'search' %}" method="GET">
+            <input type="text" name="keyword" placeholder="Search Cakes..." required>
+            <button type="button" id="closeSearchBtn">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </form>
     </div>
 </header>
 
+<!-- MESSAGES -->
 {% if messages %}
 <div class="messages-container">
     {% for message in messages %}
@@ -69,12 +124,14 @@
 </div>
 {% endif %}
 
+<!-- PAGE CONTENT -->
 {% block content %}
 {% endblock %}
 
-<!-- FOOTER TOP -->
+<!-- NEWSLETTER -->
 <section class="footer-newsletter">
     <div class="newsletter-inner">
+
         <div class="newsletter-text">
             <span class="mail-icon">✉</span>
             <div>
@@ -83,59 +140,74 @@
             </div>
         </div>
 
-        <form class="newsletter-form">
-            <input type="email" placeholder="Email Address">
+        <form class="newsletter-form" action="{% url 'newsletter_subscribe' %}" method="post">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Email Address" required>
             <button type="submit">SEND</button>
         </form>
 
         <div class="social-icons">
-            <a href="#">f</a>
-            <a href="#">t</a>
-            <a href="#">p</a>
-            <a href="#">g+</a>
-            <a href="#">▶</a>
+            <a href="https://www.instagram.com/your_instagram_username/" target="_blank">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+
+            <a href="https://www.facebook.com/your_page_name/" target="_blank">
+                <i class="fa-brands fa-facebook-f"></i>
+            </a>
+
+            <a href="https://www.youtube.com/@your_channel" target="_blank">
+                <i class="fa-brands fa-youtube"></i>
+            </a>
         </div>
+
     </div>
 </section>
 
-<footer class="footer">
+<!-- FOOTER -->
+<footer id="contact" class="footer">
     <div class="footer-inner">
+
         <div class="footer-col">
             <h3>ABOUT CAKE SPOT</h3>
             <p>Cake Spot brings freshly baked cakes, pastries and custom celebration cakes for birthdays, weddings, anniversaries and special moments.</p>
             <p class="footer-contact">
                 Phone: <span>+91 98765 43210</span><br>
-                Email: <span>cakespot@gmail.com</span>
+                Email: <span>cakespot26@gmail.com</span>
             </p>
         </div>
 
         <div class="footer-col">
             <h3>QUICK LINKS</h3>
-            <a href="/">Home</a>
-            <a href="#">About</a>
-            <a href="#">Cakes</a>
-            <a href="#">Shop</a>
-            <a href="#">Custom Cake</a>
-            <a href="#">Contact</a>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'categories' %}">Cakes</a></li>
+                <li><a href="{% url 'categories' %}">Occasions</a></li>
+                <li><a href="{% url 'custom_cakes' %}">Custom Cake</a></li>
+                <li><a href="{% url 'branches' %}">Our Branches</a></li>
+                <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+                <li><a href="{% url 'return_refund_policy' %}">Return &amp; Refund Policy</a></li>
+            </ul>
         </div>
 
         <div class="footer-col">
             <h3>OUR SERVICES</h3>
-            <a href="#">Birthday Cakes</a>
-            <a href="#">Wedding Cakes</a>
-            <a href="#">Photo Cakes</a>
-            <a href="#">Cupcakes</a>
-            <a href="#">Custom Cakes</a>
-            <a href="#">Door Delivery</a>
+            <p>🎂 Birthday Cakes</p>
+            <p>💍 Wedding Cakes</p>
+            <p>📸 Photo Cakes</p>
+            <p>🧁 Brownies</p>
+            <p>✨ Custom Cakes</p>
+            <p>🚚 Door Delivery</p>
         </div>
 
         <div class="footer-col">
-            <h3>OUR CHENNAI BRANCHES</h3>
-            <p>📍 Iyyapanthangal</p>
-            <p>📍 Mangadu</p>
-            <p>📍 Kovur</p>
-            <p>📍 Porur</p>
+            <h3>OUR BRANCHES</h3>
+            <p>📍 Iyappanthangal - 1 / 8754546089</p>
+            <p>📍 Iyappanthangal - 2 / 9962297089</p>
+            <p>📍 Porur / 9962247089</p>
+            <p>📍 Kovur / 9384107089</p>
+            <p>📍 Mangadu / 9176257089</p>
         </div>
+
     </div>
 
     <div class="footer-bottom">
@@ -144,24 +216,119 @@
 </footer>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenuClose = document.getElementById('mobileMenuClose');
+    const navMenu = document.getElementById('navMenu');
+
+    if (mobileMenuBtn && navMenu) {
+        mobileMenuBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            navMenu.classList.add('show-menu');
+        });
+    }
+
+    if (mobileMenuClose && navMenu) {
+        mobileMenuClose.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            navMenu.classList.remove('show-menu');
+        });
+    }
+
+    const mobileSearchBtn = document.getElementById('mobileSearchBtn');
+    const mobileSearchBox = document.getElementById('mobileSearchBox');
+    const closeSearchBtn = document.getElementById('closeSearchBtn');
+
+    if (mobileSearchBtn && mobileSearchBox) {
+        mobileSearchBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            mobileSearchBox.classList.add('show-search');
+        });
+    }
+
+    if (closeSearchBtn && mobileSearchBox) {
+        closeSearchBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            mobileSearchBox.classList.remove('show-search');
+        });
+    }
+
+    const userBtn = document.querySelector('.user-btn');
+    const userDropdown = document.querySelector('.user-dropdown');
+
+    if (userBtn && userDropdown) {
+        userBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            userDropdown.classList.toggle('show');
+        });
+
+        userDropdown.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+    }
+
+    const occasionBtn = document.getElementById('occasionBtn');
+    const occasionMenu = document.getElementById('occasionMenu');
+
+    if (occasionBtn && occasionMenu) {
+        occasionBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            occasionMenu.classList.toggle('show');
+        });
+
+        occasionMenu.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+    }
+
+    document.addEventListener('click', function () {
+        if (userDropdown) userDropdown.classList.remove('show');
+        if (occasionMenu) occasionMenu.classList.remove('show');
+    });
 
     const alerts = document.querySelectorAll('.alert-message');
 
-    alerts.forEach(function(alert) {
-
-        setTimeout(function() {
-
+    alerts.forEach(function (alert) {
+        setTimeout(function () {
             alert.style.transition = "opacity 0.5s ease";
             alert.style.opacity = "0";
 
-            setTimeout(function() {
+            setTimeout(function () {
                 alert.remove();
             }, 500);
 
         }, 3000);
-
     });
+
+    const contactLink = document.getElementById("contactNavLink");
+
+    if (contactLink && navMenu) {
+        contactLink.addEventListener("click", function () {
+            navMenu.classList.remove("show-menu");
+
+            document.querySelectorAll(".nav-dropdown-menu").forEach(function (menu) {
+                menu.classList.remove("show");
+            });
+        });
+    }
+
+    const deliverySlides = document.querySelectorAll(".delivery-slide");
+    let currentDelivery = 0;
+
+    if (deliverySlides.length > 0) {
+        setInterval(function () {
+            deliverySlides[currentDelivery].classList.remove("active");
+            currentDelivery = (currentDelivery + 1) % deliverySlides.length;
+            deliverySlides[currentDelivery].classList.add("active");
+        }, 3000);
+    }
 
 });
 </script>

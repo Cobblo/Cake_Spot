@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+
+{% block title %}My Account | Cake Spot{% endblock %}
+
+{% block content %}
+
+<section class="account-page">
+
+    <div class="account-container">
+
+        <div class="account-sidebar">
+
+            <h2>My Account</h2>
+
+            <a href="javascript:void(0);" onclick="showTab('details')" id="details-btn" class="active-tab">
+                My Details
+            </a>
+
+            <a href="javascript:void(0);" onclick="showTab('orders')" id="orders-btn">
+                My Orders
+            </a>
+
+            <a href="{% url 'logout' %}">
+                Logout
+            </a>
+
+        </div>
+
+
+        <div class="account-content">
+
+            <!-- DETAILS -->
+
+            <div class="account-box" id="details">
+
+                <h2>My Details</h2>
+
+                <p><strong>Name :</strong> {{ request.user.first_name }}</p>
+
+                <p><strong>Email :</strong> {{ request.user.email }}</p>
+
+                {% if profile %}
+                <p><strong>Phone :</strong> {{ profile.phone }}</p>
+                {% endif %}
+
+            </div>
+
+
+            <!-- ORDERS -->
+
+            <div class="account-box" id="orders" style="display:none;">
+
+                <h2>My Orders</h2>
+
+                {% if orders %}
+
+                <table class="order-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Order No</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for order in orders %}
+
+                        <tr>
+
+                            <td>{{ order.order_number }}</td>
+
+                            <td>{{ order.created_at|date:"d M Y" }}</td>
+
+                            <td>₹{{ order.grand_total }}</td>
+
+                            <td>{{ order.payment_status }}</td>
+
+                            <td>{{ order.status }}</td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+                {% else %}
+
+                <p>No orders found.</p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<style>
+
+.account-page{
+    padding:90px 20px;
+    background:#fff7f2;
+}
+
+.account-container{
+    max-width:1150px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:30px;
+}
+
+.account-sidebar{
+    background:#fff;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    height:fit-content;
+}
+
+.account-sidebar h2{
+    margin-bottom:25px;
+    color:#3b0804;
+}
+
+.account-sidebar a{
+    display:block;
+    padding:14px 18px;
+    margin-bottom:12px;
+    border-radius:12px;
+    background:#fff1eb;
+    color:#3b0804;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+.account-sidebar a:hover{
+    background:#fb6f83;
+    color:#fff;
+}
+
+.active-tab{
+    background:#fb6f83 !important;
+    color:#fff !important;
+}
+
+.account-box{
+    background:#fff;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.account-box h2{
+    color:#3b0804;
+    margin-bottom:20px;
+}
+
+.account-box p{
+    margin-bottom:12px;
+    font-size:17px;
+}
+
+.order-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+.order-table th{
+    background:#fb6f83;
+    color:#fff;
+    padding:14px;
+    text-align:left;
+}
+
+.order-table td{
+    padding:14px;
+    border-bottom:1px solid #eee;
+}
+
+.order-table tr:hover{
+    background:#fff8f8;
+}
+
+@media(max-width:768px){
+
+.account-container{
+    grid-template-columns:1fr;
+}
+
+.order-table{
+    font-size:13px;
+}
+
+.order-table th,
+.order-table td{
+    padding:10px;
+}
+
+}
+
+</style>
+
+
+<script>
+
+function showTab(tab){
+
+    document.getElementById("details").style.display="none";
+    document.getElementById("orders").style.display="none";
+
+    document.getElementById("details-btn").classList.remove("active-tab");
+    document.getElementById("orders-btn").classList.remove("active-tab");
+
+    document.getElementById(tab).style.display="block";
+    document.getElementById(tab+"-btn").classList.add("active-tab");
+
+}
+
+</script>
+
+{% endblock %}

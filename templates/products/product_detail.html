@@ -3,83 +3,371 @@
 
 {% block title %}{{ product.name }} | Cake Spot{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+
+<style>
+    /* ================= SPECIAL OFFER ================= */
+
+    .cs-special-offer {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 18px 0 8px;
+        padding: 15px 17px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 79, 117, 0.28);
+        border-radius: 14px;
+        background:
+            linear-gradient(
+                135deg,
+                #fff8fa 0%,
+                #ffecef 52%,
+                #fff7ef 100%
+            );
+        box-shadow: 0 8px 22px rgba(255, 79, 117, 0.10);
+    }
+
+    .cs-special-offer::after {
+        content: "";
+        position: absolute;
+        top: -34px;
+        right: -32px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: rgba(255, 79, 117, 0.08);
+    }
+
+    .cs-special-offer-icon {
+        position: relative;
+        z-index: 1;
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #ff4f75;
+        color: #ffffff;
+        font-size: 20px;
+        box-shadow: 0 7px 16px rgba(255, 79, 117, 0.24);
+    }
+
+    .cs-special-offer-text {
+        position: relative;
+        z-index: 1;
+        flex: 1;
+    }
+
+    .cs-special-offer-label {
+        display: inline-block;
+        margin-bottom: 3px;
+        color: #ff4f75;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 1.4px;
+    }
+
+    .cs-special-offer-text h3 {
+        margin: 0 0 4px;
+        color: #3b0804;
+        font-size: 17px;
+        font-weight: 800;
+        line-height: 1.35;
+    }
+
+    .cs-special-offer-text p {
+        margin: 0;
+        color: #6c5551;
+        font-size: 12px;
+        line-height: 1.55;
+    }
+
+    /* ================= ADD-ONS ================= */
+
+    .cs-addon-block {
+        margin-top: 18px;
+    }
+
+    .cs-addon-block h3 {
+        margin-bottom: 10px;
+    }
+
+    .cs-addon-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .cs-addon-card {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 52px;
+        padding: 11px 14px;
+        border: 1px solid #ff4f75;
+        border-radius: 9px;
+        background: #ffffff;
+        cursor: pointer;
+        transition: 0.25s ease;
+    }
+
+    .cs-addon-card:hover {
+        background: #fff5f7;
+        box-shadow: 0 6px 15px rgba(255, 79, 117, 0.12);
+    }
+
+    .cs-addon-card.selected {
+        background: #ff4f75;
+        color: #ffffff;
+        box-shadow: 0 7px 18px rgba(255, 79, 117, 0.22);
+    }
+
+    .cs-addon-card input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .cs-addon-name {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .cs-addon-check {
+        width: 19px;
+        height: 19px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border: 1px solid #ff4f75;
+        border-radius: 5px;
+        background: #ffffff;
+        color: transparent;
+        font-size: 11px;
+    }
+
+    .cs-addon-card.selected .cs-addon-check {
+        border-color: #ffffff;
+        color: #ff4f75;
+    }
+
+    .cs-addon-price {
+        white-space: nowrap;
+        font-size: 14px;
+        font-weight: 700;
+        color: #ff4f75;
+    }
+
+    .cs-addon-card.selected .cs-addon-price {
+        color: #ffffff;
+    }
+
+    @media (max-width: 600px) {
+        .cs-special-offer {
+            align-items: flex-start;
+            gap: 11px;
+            margin: 16px 0 6px;
+            padding: 13px 14px;
+            border-radius: 12px;
+        }
+
+        .cs-special-offer-icon {
+            width: 42px;
+            height: 42px;
+            flex-basis: 42px;
+            font-size: 17px;
+        }
+
+        .cs-special-offer-text h3 {
+            font-size: 15px;
+        }
+
+        .cs-special-offer-text p {
+            font-size: 11px;
+        }
+
+        .cs-addon-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 
-<section class="product-detail-page">
+<section class="cs-product-page">
 
-    <div class="product-detail-container">
+    <div class="cs-product-wrap">
 
-        <div class="product-left">
+        <!-- LEFT SIDE -->
+        <div class="cs-product-gallery">
 
-            <div class="thumbs">
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" onclick="changeMainImage(this)">
+            <div class="cs-thumbs">
+                <img class="cs-active-thumb"
+                     src="{{ product.image.url }}"
+                     alt="{{ product.name }}"
+                     onclick="changeMainImage(this)">
 
                 {% for img in product.gallery.all %}
-                    <img src="{{ img.image.url }}" alt="{{ product.name }}" onclick="changeMainImage(this)">
+                <img src="{{ img.image.url }}"
+                     alt="{{ product.name }}"
+                     onclick="changeMainImage(this)">
                 {% endfor %}
+
+                <button type="button" class="cs-thumb-more">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
             </div>
 
-            <div class="main-product-image">
-                <img id="mainProductImage" src="{{ product.image.url }}" alt="{{ product.name }}">
+            <div class="cs-main-image">
+                <img id="mainProductImage"
+                     src="{{ product.image.url }}"
+                     alt="{{ product.name }}">
+
+                <button type="button" class="cs-zoom-btn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
             </div>
 
         </div>
 
-        <div class="product-right">
+        <!-- RIGHT SIDE -->
+        <div class="cs-product-card">
 
             <h1>{{ product.name }}</h1>
 
-            <div class="detail-price">
-                ₹<span id="product-price">
-                    {% if default_weight %}
-                        {{ default_weight.price }}
-                    {% else %}
-                        {{ product.price }}
-                    {% endif %}
+            <div class="cs-price-row">
+                <span class="cs-price">
+                    ₹<span id="product-price">
+                        {% if default_weight %}
+                            {{ default_weight.price }}
+                        {% else %}
+                            {{ product.price }}
+                        {% endif %}
+                    </span>
                 </span>
-                <span>Tax included</span>
+
+                <span class="cs-tax">Tax included</span>
             </div>
 
-            <form method="POST" action="{% url 'add_to_cart' product.id %}">
+            <!-- SPECIAL OFFER -->
+            <div class="cs-special-offer">
+                <div class="cs-special-offer-icon">
+                    <i class="fa-solid fa-gift"></i>
+                </div>
+
+                <div class="cs-special-offer-text">
+
+                    <h3>
+                        Buy 1 Kg Cake &amp; Get ½ Kg Free
+                    </h3>
+
+                    <p>
+                        Enjoy an extra ½ Kg cake absolutely free
+                        with every 1 Kg cake purchase.
+                    </p>
+                </div>
+            </div>
+
+            <div class="cs-divider">
+                <span></span>
+                <i class="fa-solid fa-heart"></i>
+                <span></span>
+            </div>
+
+            <form method="POST"
+                  action="{% url 'add_to_cart' product.id %}"
+                  class="cs-product-form"
+                  id="productForm">
+
                 {% csrf_token %}
 
-                <div class="option-block">
-                    <h3>Egg or Eggless</h3>
+                
 
-                    <button type="button" class="option-btn egg-btn active" data-egg="Egg">
-                        Egg
-                    </button>
+                    <!-- WEIGHT -->
+                    {% if weight_prices %}
+                    <div class="cs-option-block">
+                        <h3>Quantity</h3>
 
-                    <button type="button" class="option-btn egg-btn" data-egg="Eggless">
-                        Eggless
-                    </button>
-                </div>
+                        <div class="cs-weight-row">
+                            {% for item in weight_prices %}
+                            <button type="button"
+                                    class="cs-option-btn weight-btn {% if forloop.first %}active{% endif %}"
+                                    data-weight="{{ item.weight }}"
+                                    data-price="{{ item.price }}">
+                                {{ item.weight }}
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
 
-                {% if weight_prices %}
-                <div class="option-block">
-                    <h3>Quantity</h3>
+                    <!-- MESSAGE -->
+                    <div class="cs-option-block cs-message-block">
+                        <h3>Message</h3>
 
-                    {% for item in weight_prices %}
-                    <button type="button"
-                            class="option-btn weight-btn {% if forloop.first %}active{% endif %}"
-                            data-weight="{{ item.weight }}"
-                            data-price="{{ item.price }}">
-                        {{ item.weight }}
-                    </button>
-                    {% endfor %}
-                </div>
-                {% endif %}
+                        <div class="cs-message-box">
+                            <input type="text"
+                                   name="message"
+                                   id="cake_message"
+                                   placeholder="Your Message..."
+                                   maxlength="25">
 
-                <div class="option-block">
-                    <h3>Message</h3>
-                    <input type="text"
-                           name="message"
-                           id="cake_message"
-                           class="cake-message"
-                           placeholder="Your Message...">
-                </div>
+                            <span id="messageCount">0 / 25</span>
+                        </div>
+                    </div>
 
-                <input type="hidden" name="egg_type" id="egg_type" value="Egg">
+                    <!-- ADD-ONS -->
+                    {% if product.addons.all %}
+                    <div class="cs-option-block cs-addon-block">
+                        <h3>Add-ons</h3>
+
+                        <div class="cs-addon-grid">
+
+                            {% for addon in product.addons.all %}
+                                {% if addon.is_active %}
+                                <label class="cs-addon-card">
+
+                                    <input type="checkbox"
+                                           name="addons"
+                                           value="{{ addon.id }}"
+                                           data-addon-name="{{ addon.name }}"
+                                           data-price="{{ addon.price }}"
+                                           class="cs-addon-checkbox">
+
+                                    <span class="cs-addon-name">
+                                        <span class="cs-addon-check">
+                                            <i class="fa-solid fa-check"></i>
+                                        </span>
+
+                                        {{ addon.name }}
+                                    </span>
+
+                                    <span class="cs-addon-price">
+                                        +₹{{ addon.price }}
+                                    </span>
+
+                                </label>
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                    {% endif %}
+
+                
+
+                <!-- HIDDEN VALUES -->
 
                 <input type="hidden"
                        name="weight"
@@ -87,18 +375,154 @@
                        value="{% if weight_prices %}{{ weight_prices.0.weight }}{% endif %}">
 
                 <input type="hidden"
+                       name="base_price"
+                       id="base_price"
+                       value="{% if default_weight %}{{ default_weight.price }}{% else %}{{ product.price }}{% endif %}">
+
+                <input type="hidden"
+                       name="addon_total"
+                       id="addon_total"
+                       value="0.00">
+
+                <input type="hidden"
+                       name="selected_addon_names"
+                       id="selected_addon_names"
+                       value="">
+
+                <input type="hidden"
                        name="price"
                        id="selected_price"
                        value="{% if default_weight %}{{ default_weight.price }}{% else %}{{ product.price }}{% endif %}">
 
-                <button type="submit" class="detail-cart-btn">
-                    ADD TO CART
+                <button type="submit" class="cs-cart-btn">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    Add to Cart —
+                    ₹<span id="cartButtonPrice">
+                        {% if default_weight %}
+                            {{ default_weight.price }}
+                        {% else %}
+                            {{ product.price }}
+                        {% endif %}
+                    </span>
                 </button>
+
             </form>
 
-            <p class="product-description">
-                {{ product.description }}
-            </p>
+        </div>
+
+    </div>
+
+    <!-- FEATURE STRIPS -->
+    <div class="cs-feature-area">
+
+        <div class="cs-feature-box">
+
+            <div class="cs-feature-item">
+                <span>
+                    <i class="fa-solid fa-truck-fast"></i>
+                </span>
+
+                <div>
+                    <h4>2 Hour Delivery</h4>
+                    <p>Across Chennai</p>
+                </div>
+            </div>
+
+            <div class="cs-feature-item">
+                <span>
+                    <i class="fa-solid fa-leaf"></i>
+                </span>
+
+                <div>
+                    <h4>Premium</h4>
+                    <p>Ingredients</p>
+                </div>
+            </div>
+
+            <div class="cs-feature-item">
+                <span>
+                    <i class="fa-regular fa-star"></i>
+                </span>
+
+                <div>
+                    <h4>Loved by</h4>
+                    <p>2,500+ Customers</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="cs-feature-box">
+
+            <div class="cs-feature-item">
+                <span>
+                    <i class="fa-solid fa-shield-heart"></i>
+                </span>
+
+                <div>
+                    <h4>Secure Payments</h4>
+                    <p>100% Safe & Secure</p>
+                </div>
+            </div>
+
+            <div class="cs-feature-item">
+                <span>
+                    <i class="fa-solid fa-feather"></i>
+                </span>
+
+                <div>
+                    <h4>Hygienically Packed</h4>
+                    <p>With Care & Love</p>
+                </div>
+            </div>
+
+            <div class="cs-feature-item">
+                <span>
+                    <i class="fa-solid fa-truck"></i>
+                </span>
+
+                <div>
+                    <h4>On Time Delivery</h4>
+                    <p>On Every Order</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ABOUT CARD -->
+    <div class="cs-about-card">
+
+        <div class="cs-about-img">
+            <img src="{{ product.image.url }}"
+                 alt="{{ product.name }}">
+        </div>
+
+        <div class="cs-about-content">
+            <h2>About This Cake</h2>
+            <p>{{ product.description }}</p>
+        </div>
+
+        <div class="cs-about-points">
+
+            <div class="cs-about-point">
+                <i class="fa-regular fa-snowflake"></i>
+                <h4>Soft & Creamy</h4>
+                <p>Rich flavour with smooth texture</p>
+            </div>
+
+            <div class="cs-about-point">
+                <i class="fa-solid fa-border-all"></i>
+                <h4>Premium Quality</h4>
+                <p>Made with the finest ingredients</p>
+            </div>
+
+            <div class="cs-about-point">
+                <i class="fa-regular fa-heart"></i>
+                <h4>Made With Love</h4>
+                <p>Baked fresh for every celebration</p>
+            </div>
 
         </div>
 
@@ -107,49 +531,136 @@
 </section>
 
 <script>
-    function changeMainImage(thumbnail){
+    document.addEventListener('DOMContentLoaded', function () {
+
         const mainImage = document.getElementById('mainProductImage');
+
+        const weightButtons = document.querySelectorAll('.weight-btn');
+        const addonCheckboxes = document.querySelectorAll('.cs-addon-checkbox');
+
+        const weightInput = document.getElementById('weight');
+
+        const basePriceInput = document.getElementById('base_price');
+        const addonTotalInput = document.getElementById('addon_total');
+        const selectedPriceInput = document.getElementById('selected_price');
+        const selectedAddonNamesInput =
+            document.getElementById('selected_addon_names');
+
+        const productPriceBox =
+            document.getElementById('product-price');
+        const cartButtonPrice =
+            document.getElementById('cartButtonPrice');
+
+        const messageInput =
+            document.getElementById('cake_message');
+        const messageCount =
+            document.getElementById('messageCount');
+
+        function formatPrice(value) {
+            return Number(value).toFixed(2);
+        }
+
+        function calculateTotal() {
+            const basePrice =
+                parseFloat(basePriceInput.value) || 0;
+
+            let addonTotal = 0;
+            const selectedAddonNames = [];
+
+            addonCheckboxes.forEach(function (checkbox) {
+                const card = checkbox.closest('.cs-addon-card');
+
+                if (checkbox.checked) {
+                    const addonPrice =
+                        parseFloat(checkbox.dataset.price) || 0;
+
+                    addonTotal += addonPrice;
+
+                    selectedAddonNames.push(
+                        checkbox.dataset.addonName
+                    );
+
+                    card.classList.add('selected');
+                } else {
+                    card.classList.remove('selected');
+                }
+            });
+
+            const finalPrice = basePrice + addonTotal;
+
+            addonTotalInput.value = formatPrice(addonTotal);
+            selectedPriceInput.value = formatPrice(finalPrice);
+
+            selectedAddonNamesInput.value =
+                selectedAddonNames.join(', ');
+
+            productPriceBox.innerText =
+                formatPrice(finalPrice);
+
+            cartButtonPrice.innerText =
+                formatPrice(finalPrice);
+
+        }
+
+        if (weightButtons.length > 0) {
+            const firstWeightButton = weightButtons[0];
+
+            weightInput.value =
+                firstWeightButton.dataset.weight;
+
+            basePriceInput.value =
+                firstWeightButton.dataset.price;
+        }
+
+        weightButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                weightButtons.forEach(function (btn) {
+                    btn.classList.remove('active');
+                });
+
+                this.classList.add('active');
+
+                weightInput.value =
+                    this.dataset.weight;
+
+                basePriceInput.value =
+                    this.dataset.price;
+
+                calculateTotal();
+            });
+        });
+
+        addonCheckboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                calculateTotal();
+            });
+        });
+
+        if (messageInput) {
+            messageInput.addEventListener('input', function () {
+                messageCount.innerText =
+                    this.value.length + ' / 25';
+            });
+        }
+
+        calculateTotal();
+    });
+
+    function changeMainImage(thumbnail) {
+        const mainImage =
+            document.getElementById('mainProductImage');
+
+        const thumbs =
+            document.querySelectorAll('.cs-thumbs img');
+
         mainImage.src = thumbnail.src;
-    }
 
-    const eggButtons = document.querySelectorAll('.egg-btn');
-    const eggInput = document.getElementById('egg_type');
-
-    eggButtons.forEach(function(button){
-        button.addEventListener('click', function(){
-            eggButtons.forEach(function(btn){
-                btn.classList.remove('active');
-            });
-
-            this.classList.add('active');
-            eggInput.value = this.dataset.egg;
+        thumbs.forEach(function (img) {
+            img.classList.remove('cs-active-thumb');
         });
-    });
 
-    const weightButtons = document.querySelectorAll('.weight-btn');
-    const priceBox = document.getElementById('product-price');
-    const weightInput = document.getElementById('weight');
-    const priceInput = document.getElementById('selected_price');
-
-    if(weightButtons.length > 0){
-        weightInput.value = weightButtons[0].dataset.weight;
-        priceInput.value = weightButtons[0].dataset.price;
-        priceBox.innerText = weightButtons[0].dataset.price;
+        thumbnail.classList.add('cs-active-thumb');
     }
-
-    weightButtons.forEach(function(button){
-        button.addEventListener('click', function(){
-            weightButtons.forEach(function(btn){
-                btn.classList.remove('active');
-            });
-
-            this.classList.add('active');
-
-            priceBox.innerText = this.dataset.price;
-            weightInput.value = this.dataset.weight;
-            priceInput.value = this.dataset.price;
-        });
-    });
 </script>
 
 {% endblock %}

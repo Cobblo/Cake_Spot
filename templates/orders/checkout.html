@@ -9,80 +9,431 @@
 
     <h1>Checkout</h1>
 
-    <div class="checkout-container">
+    <form method="POST" action="{% url 'payment_page' %}">
+        {% csrf_token %}
 
-        <div class="checkout-form-box">
-            <h2>Delivery Details</h2>
+        <!-- Always process the full order amount -->
+        <input
+            type="hidden"
+            name="payment_option"
+            value="FULL"
+        >
 
-            <form method="POST">
-                {% csrf_token %}
+        <div class="checkout-container">
+
+            <!-- ================= LEFT SIDE ================= -->
+
+            <div class="checkout-form-box">
+
+                <h2>Delivery Details</h2>
 
                 <div class="form-row">
-                    <input type="text" name="first_name" placeholder="First Name" required>
-                    <input type="text" name="last_name" placeholder="Last Name" required>
+
+                    <input
+                        type="text"
+                        name="full_name"
+                        placeholder="Full Name"
+                        value="{% if request.user.is_authenticated %}{{ request.user.get_full_name|default:request.user.username }}{% endif %}"
+                        required
+                    >
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email Address"
+                        value="{% if request.user.is_authenticated %}{{ request.user.email }}{% endif %}"
+                        required
+                    >
+
                 </div>
 
                 <div class="form-row">
-                    <input type="email" name="email" placeholder="Email Address" required>
-                    <input type="text" name="phone" placeholder="Phone Number" required>
+
+                    <input
+                        type="text"
+                        name="phone"
+                        placeholder="Phone Number"
+                        maxlength="15"
+                        required
+                    >
+
+                    <input
+                        type="text"
+                        name="city"
+                        placeholder="City"
+                        required
+                    >
+
                 </div>
 
-                <textarea name="address" placeholder="Full Delivery Address" required></textarea>
+                <textarea
+                    name="address"
+                    placeholder="Full Delivery Address"
+                    required
+                ></textarea>
 
-                <div class="form-row">
-                    <input type="text" name="city" placeholder="City" required>
-                    <input type="text" name="pincode" placeholder="Pincode" required>
+                <input
+                    type="text"
+                    name="pincode"
+                    placeholder="Pincode"
+                    maxlength="10"
+                    required
+                >
+
+                <textarea
+                    name="order_note"
+                    placeholder="Order Note (optional)"
+                ></textarea>
+
+                <!-- ================= LOCATION ================= -->
+
+                <div class="location-field">
+
+                    <h2>Select Cake Spot Branch</h2>
+
+                    <select
+                        name="location"
+                        id="location"
+                        required
+                    >
+                        <option value="" selected disabled>
+                            Select Your Preferred Branch
+                        </option>
+
+                        <option value="Iyyapanthangal-1">
+                            Iyyapanthangal 1
+                        </option>
+
+                        <option value="Iyyapanthangal-2">
+                            Iyyapanthangal 2
+                        </option>
+
+                        <option value="Porur">
+                            Porur
+                        </option>
+
+                        <option value="Kovur">
+                            Kovur
+                        </option>
+
+                        <option value="Mangadu">
+                            Mangadu
+                        </option>
+
+                    </select>
+
                 </div>
 
-                <textarea name="order_note" placeholder="Order Note (optional)"></textarea>
+            </div>
 
-                <button type="submit" class="place-order-btn">
-                    Place Order
-                </button>
-            </form>
+            <!-- ================= RIGHT SIDE ================= -->
+
+            <div class="checkout-summary-box">
+
+                <h2>Order Summary</h2>
+
+                {% for item in cart_items %}
+
+                    <div class="checkout-item">
+
+                        {% if item.product.image %}
+
+                            <img
+                                src="{{ item.product.image.url }}"
+                                alt="{{ item.product.name }}"
+                            >
+
+                        {% endif %}
+
+                        <div>
+
+                            <h3>
+                                {{ item.product.name }}
+                            </h3>
+
+                            {% if item.weight %}
+
+                                <p>
+                                    Weight: {{ item.weight }}
+                                </p>
+
+                            {% endif %}
+
+                            {% if item.egg_type %}
+
+                                <p>
+                                    Type: {{ item.egg_type }}
+                                </p>
+
+                            {% endif %}
+
+                            <p>
+                                Qty: {{ item.quantity }}
+                            </p>
+
+                            {% if item.message %}
+
+                                <p>
+                                    Message: {{ item.message }}
+                                </p>
+
+                            {% endif %}
+
+                            {% if item.addons.exists %}
+
+                                <div class="checkout-addons">
+
+                                    <strong>
+                                        Add-ons:
+                                    </strong>
+
+                                    {% for addon in item.addons.all %}
+
+                                        <p>
+                                            {{ addon.name }}
+                                            —
+                                            ₹{{ addon.price }}
+                                        </p>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            {% endif %}
+
+                            <strong>
+                                ₹{{ item.row_total }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <p>
+                        Your cart is empty.
+                    </p>
+
+                {% endfor %}
+
+                <!-- ================= TOTALS ================= -->
+
+                <div class="summary-line">
+
+                    <span>
+                        Cart Total
+                    </span>
+
+                    <strong>
+                        ₹{{ total }}
+                    </strong>
+
+                </div>
+
+                <div class="summary-line">
+
+                    <span>
+                        Shipping
+                    </span>
+
+                    <strong>
+
+                        {% if shipping == 0 %}
+
+                            Free
+
+                        {% else %}
+
+                            ₹{{ shipping }}
+
+                        {% endif %}
+
+                    </strong>
+
+                </div>
+
+                <div class="summary-line grand">
+
+                    <span>
+                        Grand Total
+                    </span>
+
+                    <strong>
+                        ₹{{ grand_total }}
+                    </strong>
+
+                </div>
+
+                <!-- ================= PAYMENT METHOD ================= -->
+
+                <div class="payment-method-box">
+
+                    <h3>
+                        Select Payment Method
+                    </h3>
+
+                    <!-- ONLINE PAYMENT -->
+
+                    <label class="payment-option">
+
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="Online Payment"
+                            id="online-payment"
+                            checked
+                            required
+                        >
+
+                        <span>
+                            Online Payment
+                        </span>
+
+                    </label>
+
+                    <!-- CASH ON DELIVERY -->
+
+                    <label class="payment-option">
+
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="Cash on Delivery"
+                            id="cash-on-delivery"
+                            required
+                        >
+
+                        <span>
+                            Cash on Delivery
+                        </span>
+
+                    </label>
+
+                    <!-- ================= FULL PAYMENT DETAILS ================= -->
+
+                    <div
+                        class="payment-breakdown"
+                        id="payment-breakdown"
+                    >
+
+                        <div class="summary-line">
+
+                            <span id="payment-amount-label">
+                                Pay Now
+                            </span>
+
+                            <strong id="pay-now-amount">
+                                ₹{{ grand_total }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    <p
+                        id="payment-note"
+                        class="payment-note"
+                    >
+                        Pay the complete order amount securely online.
+                        After successful payment, the final invoice will
+                        be sent to your registered email address.
+                    </p>
+
+                    <button
+                        type="submit"
+                        class="place-order-btn"
+                        id="place-order-btn"
+                    >
+                        Pay ₹{{ grand_total }}
+                    </button>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="checkout-summary-box">
-            <h2>Order Summary</h2>
-
-            {% for item in cart_items %}
-            <div class="checkout-item">
-                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
-
-                <div>
-                    <h3>{{ item.product.name }}</h3>
-                    <p>{{ item.egg_type }} / {{ item.weight }}</p>
-                    <p>Qty: {{ item.quantity }}</p>
-                    <strong>₹{{ item.row_total }}</strong>
-                </div>
-            </div>
-            {% endfor %}
-
-            <div class="summary-line">
-                <span>Cart Total</span>
-                <strong>₹{{ total }}</strong>
-            </div>
-
-            <div class="summary-line">
-                <span>Shipping</span>
-                <strong>
-                    {% if shipping == 0 %}
-                        Free
-                    {% else %}
-                        ₹{{ shipping }}
-                    {% endif %}
-                </strong>
-            </div>
-
-            <div class="summary-line grand">
-                <span>Grand Total</span>
-                <strong>₹{{ grand_total }}</strong>
-            </div>
-
-        </div>
-
-    </div>
+    </form>
 
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const onlinePayment =
+        document.getElementById("online-payment");
+
+    const cashOnDelivery =
+        document.getElementById("cash-on-delivery");
+
+    const paymentBreakdown =
+        document.getElementById("payment-breakdown");
+
+    const paymentAmountLabel =
+        document.getElementById("payment-amount-label");
+
+    const payNowAmount =
+        document.getElementById("pay-now-amount");
+
+    const paymentNote =
+        document.getElementById("payment-note");
+
+    const placeOrderButton =
+        document.getElementById("place-order-btn");
+
+    const grandTotal =
+        "{{ grand_total|floatformat:2 }}";
+
+    function updatePaymentDisplay() {
+
+        payNowAmount.textContent =
+            "₹" + grandTotal;
+
+        paymentBreakdown.style.display =
+            "block";
+
+        if (cashOnDelivery.checked) {
+
+            paymentAmountLabel.textContent =
+                "Amount to Pay on Delivery";
+
+            placeOrderButton.textContent =
+                "Place COD Order";
+
+            paymentNote.textContent =
+                "The complete amount of ₹" +
+                grandTotal +
+                " must be paid when your order is delivered.";
+
+        } else {
+
+            paymentAmountLabel.textContent =
+                "Pay Now";
+
+            placeOrderButton.textContent =
+                "Pay ₹" + grandTotal;
+
+            paymentNote.textContent =
+                "Pay the complete order amount securely online. " +
+                "After successful payment, the final invoice will " +
+                "be sent to your registered email address.";
+        }
+    }
+
+    onlinePayment.addEventListener(
+        "change",
+        updatePaymentDisplay
+    );
+
+    cashOnDelivery.addEventListener(
+        "change",
+        updatePaymentDisplay
+    );
+
+    updatePaymentDisplay();
+
+});
+</script>
 
 {% endblock %}

@@ -3,16 +3,85 @@
 
 {% block title %}Cake Spot{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <!-- HERO SECTION -->
 <section class="hero">
-    <div class="hero-content">
-        <h4>FRESHLY BAKED EVERYDAY</h4>
-        <h1>Delicious Cakes For <br> Every Celebration</h1>
-        <p>Premium cakes handcrafted with love for birthdays, weddings, anniversaries and every special occasion.</p>
-        <a href="{% url 'categories' %}" class="hero-btn">Explore Cakes</a>
+    
+    <div class="delivery-strip hero-delivery-strip">
+
+        <div class="delivery-title">
+            <i class="fa-solid fa-location-dot"></i>
+            Delivering Across Chennai
+        </div>
+
+        <div class="delivery-slider">
+
+            <div class="delivery-slide active">
+                <strong>Iyappanthangal</strong>
+                <span>Kattupakkam • Kumananchavadi • Karayanchavadi • Poonamallee</span>
+            </div>
+
+            <div class="delivery-slide">
+                <strong>Porur</strong>
+                <span>Guindy • Ramapuram • Nandanam • Mugalivakkam</span>
+            </div>
+
+            <div class="delivery-slide">
+                <strong>Kovur</strong>
+                <span>Kolapakkam • Gerugambakkam • Virugambakkam • Moulivakkam</span>
+            </div>
+
+            <div class="delivery-slide">
+                <strong>Mangadu</strong>
+                <span>Kundrathur • Kolumanivakkam • Pallavaram • Tambaram</span>
+            </div>
+
+        </div>
+
     </div>
+
+    <div class="hero-video hero-video-left">
+        <video autoplay muted loop playsinline>
+            <source src="{% static 'videos/cakemak.mp4' %}" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="hero-content">
+
+        <h4>FRESHLY BAKED EVERYDAY</h4>
+
+
+        <h1 class="hero-offer-title">
+            Buy 1 Kg and <br>
+            Get ½ Kg FREE
+        </h1>
+
+        <div class="hero-divider">
+            <span></span>
+            <i class="fa-solid fa-heart"></i>
+            <span></span>
+        </div>
+
+        <p>Premium cakes handcrafted with love for birthdays, weddings, anniversaries and every special occasion.</p>
+
+        <a href="{% url 'categories' %}" class="hero-btn">
+            <i class="fa-solid fa-cake-candles"></i>
+            Explore Cakes
+        </a>
+
+    </div>
+
+    <div class="hero-video hero-video-right">
+        <video autoplay muted loop playsinline>
+            <source src="{% static 'videos/cakepiece.mp4' %}" type="video/mp4">
+        </video>
+    </div>
+
 </section>
 
 <!-- CATEGORIES -->
@@ -30,11 +99,11 @@
             <h3>Wedding Cakes</h3>
         </a>
 
-        <a href="{% url 'categories' %}?category=anniversary-cakes" class="category-card">
+        <a href="{% url 'categories' %}?category=anniversary-cake" class="category-card">
             <h3>Anniversary Cakes</h3>
         </a>
 
-        <a href="{% url 'categories' %}?category=custom-cakes" class="category-card">
+        <a href="{% url 'custom_cakes' %}" class="category-card">
             <h3>Custom Cakes</h3>
         </a>
     </div>
@@ -42,11 +111,20 @@
 
 <!-- BEST SELLERS -->
 <section class="products">
+
+    <div class="products-title">
+        <span>Handcrafted with love</span>
+        <h2>Our Signature Cakes</h2>
+        <p>Made with premium ingredients, baked fresh for every celebration.</p>
+    </div>
+
     <div class="product-slider">
         <div class="product-grid">
+
             {% for product in best_sellers %}
             <div class="product-card">
-                <a href="{% url 'product_detail' product.slug %}">
+
+                <a href="{% url 'product_detail' product.slug %}" class="product-image">
                     <img src="{{ product.image.url }}" alt="{{ product.name }}">
                 </a>
 
@@ -56,20 +134,28 @@
                             {{ product.name }}
                         </a>
                     </h3>
-                    <p>₹{{ product.price }}</p>
-                    <a href="{% url 'product_detail' product.slug %}" class="add-cart-btn">
-                        ADD TO CART
-                    </a>
+
+                    <div class="product-bottom">
+                        <p class="product-price">₹{{ product.price|floatformat:0 }}</p>
+
+                        <a href="{% url 'product_detail' product.slug %}" class="add-cart-btn">
+                            Add to Cart <i class="fa-solid fa-cart-shopping"></i>
+                        </a>
+                    </div>
                 </div>
+
             </div>
             {% endfor %}
+
         </div>
     </div>
 
-    <div class="slider-dots">
-        <span class="active"></span>
-        <span></span>
+    <div class="view-all-wrapper">
+        <a href="{% url 'categories' %}" class="view-all-btn">
+            Explore All Cakes <i class="fa-solid fa-cake-candles"></i>
+        </a>
     </div>
+
 </section>
 
 {% endblock %}

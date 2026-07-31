@@ -1,6 +1,210 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+
+<style>
+    .cart-addon-list {
+        margin-top: 10px;
+        padding: 10px 12px;
+        background: #fff7f8;
+        border: 1px solid #f4d5dc;
+        border-radius: 8px;
+    }
+
+    .cart-addon-title {
+        display: block;
+        margin-bottom: 6px;
+        color: #3b0804;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .cart-addon-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 4px;
+        color: #69453f;
+        font-size: 13px;
+    }
+
+    .cart-addon-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .cart-price-details {
+        margin-top: 8px;
+        font-size: 13px;
+        color: #69453f;
+    }
+
+    .cart-price-line {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 4px;
+    }
+
+    .cart-price-line:last-child {
+        margin-bottom: 0;
+    }
+
+    .cart-price-line strong {
+        color: #3b0804;
+    }
+
+    .cart-final-price {
+        margin-top: 7px;
+        padding-top: 7px;
+        border-top: 1px dashed #e2bfc7;
+        font-weight: 700;
+    }
+
+    /* ================= FREE CAKE OFFER ================= */
+
+    .cart-quantity-display{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    margin-bottom:12px;
+    }
+
+    .cart-quantity-value{
+        min-width:40px;
+        padding:8px 14px;
+        border-radius:8px;
+        background:#fff7f8;
+        border:1px solid #f4d5dc;
+        color:#3b0804;
+        font-weight:700;
+        text-align:center;
+    }
+
+    .cart-main-offer-banner {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin: 20px 0 30px;
+        padding: 16px 18px;
+        border: 1px solid #ffd2dc;
+        border-radius: 12px;
+        background:
+            linear-gradient(
+                135deg,
+                #fff7f9,
+                #ffecef
+            );
+    }
+
+    .cart-main-offer-banner-icon {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #ff4f75;
+        color: #ffffff;
+        font-size: 18px;
+    }
+
+    .cart-main-offer-banner h3 {
+        margin: 0;
+        color: #3b0804;
+        font-size: 17px;
+    }
+
+    .cart-main-offer-banner p {
+        margin: 4px 0 0;
+        color: #6d5551;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .cart-free-offer {
+        display: flex;
+        align-items: flex-start;
+        gap: 11px;
+        margin-top: 12px;
+        padding: 12px;
+        border: 1px solid #ffd2dc;
+        border-radius: 10px;
+        background: #fff8fa;
+    }
+
+    .cart-free-offer-icon {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #ff4f75;
+        color: #ffffff;
+        font-size: 14px;
+    }
+
+    .cart-free-offer-content {
+        flex: 1;
+    }
+
+    .cart-free-offer-content strong {
+        display: block;
+        margin-bottom: 4px;
+        color: #3b0804;
+        font-size: 13px;
+    }
+
+    .cart-free-offer-content p {
+        margin: 3px 0;
+        color: #6d5551;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .cart-free-quantity {
+        color: #ff4f75;
+        font-weight: 800;
+    }
+
+    .cart-summary-free-offer {
+        margin-bottom: 16px;
+        padding: 13px 15px;
+        border: 1px solid #ffd2dc;
+        border-radius: 10px;
+        background: #fff7f9;
+    }
+
+    .cart-summary-free-offer span {
+        color: #ff4f75;
+        font-weight: 800;
+    }
+
+    @media (max-width: 768px) {
+        .cart-addon-list {
+            margin-top: 8px;
+        }
+
+        .cart-main-offer-banner {
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 13px;
+        }
+
+        .cart-main-offer-banner-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block title %}Cart | Cake Spot{% endblock %}
 
 {% block content %}
@@ -9,95 +213,326 @@
 
     <h1>Your Cart</h1>
 
-    <div class="cart-header">
-        <div>Item</div>
-        <div>Price</div>
-        <div>Quantity</div>
-        <div>Total</div>
-    </div>
+    {% if cart_items %}
 
-    {% for item in cart_items %}
-    <div class="cart-row">
+        <div class="cart-main-offer-banner">
 
-        <div class="cart-product">
-
-            <a href="{% url 'product_detail' item.product.slug %}">
-                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
-            </a>
+            <span class="cart-main-offer-banner-icon">
+                <i class="fa-solid fa-gift"></i>
+            </span>
 
             <div>
                 <h3>
-                    <a href="{% url 'product_detail' item.product.slug %}" class="cart-product-link">
-                        {{ item.product.name }}
-                    </a>
+                    Buy 1 Kg Cake &amp; Get ½ Kg Free
                 </h3>
-                <p>{{ item.egg_type }} / {{ item.weight }}</p>
 
-                {% if item.message %}
-                <small>Message: {{ item.message }}</small>
-                {% endif %}
+                <p>
+                    The free cake quantity is automatically calculated
+                    according to the purchased cake weight.
+                </p>
             </div>
+
         </div>
 
-        <div class="cart-price">
-            ₹{{ item.price }} each
+        <div class="cart-header">
+            <div>Item</div>
+            <div>Price</div>
+            <div>Quantity</div>
+            <div>Total</div>
         </div>
 
-        <div class="cart-qty-wrapper">
+        {% for item in cart_items %}
 
-            <div class="cart-qty">
+            <div class="cart-row">
 
-                <a href="{% url 'decrease_cart' item.id %}" class="qty-btn">
-                    -
-                </a>
+                <div class="cart-product">
 
-                <span class="qty-box">
-                    {{ item.quantity }}
+                    <a href="{% url 'product_detail' item.product.slug %}">
+                        <img
+                            src="{{ item.product.image.url }}"
+                            alt="{{ item.product.name }}"
+                        >
+                    </a>
+
+                    <div class="cart-product-info">
+
+                        <h3>
+                            <a
+                                href="{% url 'product_detail' item.product.slug %}"
+                                class="cart-product-link"
+                            >
+                                {{ item.product.name }}
+                            </a>
+                        </h3>
+
+                        {% if item.weight %}
+                            <p>
+                                {{ item.weight }}
+                            </p>
+                        {% endif %}
+
+                        {% if item.message %}
+                            <small>
+                                Message: {{ item.message }}
+                            </small>
+                        {% endif %}
+
+                        {% if item.addons.all %}
+
+                            <div class="cart-addon-list">
+
+                                <span class="cart-addon-title">
+                                    Selected Add-ons
+                                </span>
+
+                                {% for addon in item.addons.all %}
+
+                                    <div class="cart-addon-item">
+
+                                        <span>
+                                            {{ addon.name }}
+                                        </span>
+
+                                        <strong>
+                                            +₹{{ addon.price }}
+                                        </strong>
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                        {% if item.has_free_cake_offer %}
+
+                            <div class="cart-free-offer">
+
+                                <span class="cart-free-offer-icon">
+                                    <i class="fa-solid fa-gift"></i>
+                                </span>
+
+                                <div class="cart-free-offer-content">
+
+                                    <strong>
+                                        Free Cake Offer Applied
+                                    </strong>
+
+                                    <p>
+                                        Purchased cake weight:
+                                        <b>
+                                            {{ item.purchased_weight_in_kg|floatformat:-1 }}
+                                            Kg
+                                        </b>
+                                    </p>
+
+                                    <p>
+                                        Free cake quantity:
+                                        <span class="cart-free-quantity">
+                                            {{ item.free_cake_weight_display }}
+                                            FREE
+                                        </span>
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                <div class="cart-price">
+
+                    <span class="cart-label">
+                        Price:
+                    </span>
+
+                    <div class="cart-price-details">
+
+                        <div class="cart-price-line">
+
+                            <span>
+                                Cake Price
+                            </span>
+
+                            <strong>
+                                ₹{{ item.base_price }}
+                            </strong>
+
+                        </div>
+
+                        {% if item.addon_total > 0 %}
+
+                            <div class="cart-price-line">
+
+                                <span>
+                                    Add-ons
+                                </span>
+
+                                <strong>
+                                    +₹{{ item.addon_total }}
+                                </strong>
+
+                            </div>
+
+                        {% endif %}
+
+                        <div class="cart-price-line cart-final-price">
+
+                            <span>
+                                Final Price
+                            </span>
+
+                            <strong>
+                                ₹{{ item.price }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    <span class="cart-each">
+                        each
+                    </span>
+
+                </div>
+
+                <div class="cart-qty-wrapper">
+
+                    <div class="cart-quantity-display">
+
+                        <span class="cart-label">
+                            Quantity:
+                        </span>
+
+                        <span class="cart-quantity-value">
+                            {{ item.quantity }}
+                        </span>
+
+                    </div>
+
+                    <a
+                        href="{% url 'remove_cart' item.id %}"
+                        class="remove-link"
+                        onclick="return confirm('Remove this item?')"
+                    >
+                        Remove
+                    </a>
+
+                </div>
+
+                <div class="cart-total">
+
+                    <span class="cart-label">
+                        Total:
+                    </span>
+
+                    <span class="cart-amount">
+                        ₹{{ item.row_total }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+        <div class="cart-summary">
+
+            {% if total_free_cake_weight > 0 %}
+
+                <div class="cart-summary-free-offer">
+
+                    <strong>
+                        Total Free Cake Included:
+                    </strong>
+
+                    <span>
+                        {{ total_free_cake_weight|floatformat:-1 }}
+                        Kg FREE
+                    </span>
+
+                </div>
+
+            {% endif %}
+
+            <h3>
+                Cart Total:
+
+                <span class="cart-amount">
+                    ₹{{ total }}
                 </span>
+            </h3>
 
-                <a href="{% url 'increase_cart' item.id %}" class="qty-btn">
-                    +
-                </a>
+            {% if shipping == 0 and total > 0 %}
 
-            </div>
+                <h3>
+                    Shipping:
 
-            <a href="{% url 'remove_cart' item.id %}"
-            class="remove-link"
-            onclick="return confirm('Remove this item?')">
-                Remove
+                    <span class="cart-amount">
+                        Free
+                    </span>
+                </h3>
+
+            {% else %}
+
+                <h3>
+                    Shipping:
+
+                    <span class="cart-amount">
+                        ₹{{ shipping }}
+                    </span>
+                </h3>
+
+            {% endif %}
+
+            <h2>
+                Grand Total:
+
+                <span class="cart-amount">
+                    ₹{{ grand_total }}
+                </span>
+            </h2>
+
+            {% if total > 0 and total < 1199 %}
+
+                <p class="shipping-note">
+                    Free shipping on orders ₹1199 and above.
+                </p>
+
+            {% endif %}
+
+            <a
+                href="{% url 'checkout' %}"
+                class="checkout-btn"
+            >
+                Checkout
             </a>
 
         </div>
 
-        <div class="cart-total">
-            ₹{{ item.row_total }}
+    {% else %}
+
+        <div class="empty-cart">
+
+            <p>
+                Your cart is empty.
+            </p>
+
+            <a
+                href="{% url 'categories' %}"
+                class="checkout-btn"
+            >
+                Shop Cakes
+            </a>
+
         </div>
 
-    </div>
-    {% empty %}
-    <p class="empty-cart">Your cart is empty.</p>
-    {% endfor %}
-
-    <div class="cart-summary">
-
-        <h3>Cart Total: ₹{{ total }}</h3>
-
-        {% if shipping == 0 and total > 0 %}
-            <h3>Shipping: Free</h3>
-        {% else %}
-            <h3>Shipping: ₹{{ shipping }}</h3>
-        {% endif %}
-
-        <h2>Grand Total: ₹{{ grand_total }}</h2>
-
-        {% if total > 0 and total < 1199 %}
-            <p class="shipping-note">
-                Free shipping on orders ₹1199 and above.
-            </p>
-        {% endif %}
-
-        <a href="{% url 'checkout' %}" class="checkout-btn">Checkout</a>
-    </div>
+    {% endif %}
 
 </section>
 

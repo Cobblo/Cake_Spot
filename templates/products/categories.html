@@ -7,13 +7,14 @@
 
 <section class="all-recipes-page">
 
-    <div class="section-title recipe-title">
-        <h2>ALL CAKES</h2>
-        <div class="title-divider">
-            <span>🧁</span>
-        </div>
+    {% if not selected_category %}
+<div class="section-title recipe-title">
+    <h2>ALL CAKES</h2>
+    <div class="title-divider">
+        <span>🧁</span>
     </div>
-
+</div>
+{% endif %}
     <div class="cake-filter-menu">
         <a href="{% url 'categories' %}"
            class="{% if not selected_category %}active{% endif %}">
@@ -28,7 +29,29 @@
         {% endfor %}
     </div>
 
-    <div class="cake-list-grid">
+    {% if selected_category_obj %}
+    <section class="category-intro">
+        <div class="category-intro-content">
+            <span>{{ selected_category_obj.intro_subtitle }}</span>
+            <h2>{{ selected_category_obj.intro_title|default:selected_category_obj.name }}</h2>
+            <p>{{ selected_category_obj.intro_description }}</p>
+
+<a href="#cakes" class="category-intro-btn">
+    Explore Cakes
+</a>
+        </div>
+
+        {% if selected_category_obj.intro_video %}
+        <div class="category-intro-video">
+            <video autoplay muted loop playsinline>
+                <source src="{{ selected_category_obj.intro_video.url }}" type="video/mp4">
+            </video>
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
+
+    <div id="cakes" class="cake-list-grid">
 
         {% for product in products %}
         <div class="cake-list-card">
@@ -43,11 +66,13 @@
                 </a>
             </h3>
 
-            <p class="cake-price">₹{{ product.price }}</p>
+            <div class="card-footer">
+                <p class="cake-price">₹{{ product.price|floatformat:0 }}</p>
 
-            <a href="{% url 'product_detail' product.slug %}" class="add-cart-btn">
-                ADD TO CART
-            </a>
+                <a href="{% url 'product_detail' product.slug %}" class="add-cart-btn">
+                    Add to Cart <i class="fa-solid fa-cart-shopping"></i>
+                </a>
+            </div>
 
         </div>
         {% empty %}

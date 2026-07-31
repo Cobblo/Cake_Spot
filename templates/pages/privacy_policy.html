@@ -1,0 +1,394 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy Policy | Cake Spot{% endblock %}
+
+{% block extra_css %}
+<style>
+    .policy-page {
+        padding: 70px 20px 90px;
+        background: #fffaf8;
+    }
+
+    .policy-container {
+        width: 100%;
+        max-width: 1050px;
+        margin: 0 auto;
+    }
+
+    .policy-banner {
+        margin-bottom: 35px;
+        padding: 50px 30px;
+        border: 1px solid #f2d5ce;
+        border-radius: 22px;
+        background:
+            radial-gradient(circle at top right, rgba(251,111,131,.18), transparent 35%),
+            linear-gradient(135deg, #fff7f4, #ffebe5);
+        text-align: center;
+    }
+
+    .policy-label {
+        display: inline-block;
+        margin-bottom: 12px;
+        color: #fb6f83;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    .policy-banner h1 {
+        margin: 0 0 15px;
+        color: #3b0804;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 54px;
+        line-height: 1.1;
+    }
+
+    .policy-banner p {
+        max-width: 720px;
+        margin: 0 auto;
+        color: #72524d;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    .policy-date {
+        display: inline-block;
+        margin-top: 18px;
+        padding: 8px 16px;
+        border-radius: 30px;
+        background: #ffffff;
+        color: #3b0804;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .policy-content {
+        padding: 45px;
+        border: 1px solid #f0ddda;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 15px 45px rgba(59,8,4,.06);
+    }
+
+    .policy-intro {
+        margin: 0 0 32px;
+        padding: 20px;
+        border-left: 4px solid #fb6f83;
+        border-radius: 10px;
+        background: #fff7f8;
+        color: #694f4a;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    .policy-section {
+        margin-bottom: 34px;
+    }
+
+    .policy-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .policy-section h2 {
+        margin: 0 0 14px;
+        color: #3b0804;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 30px;
+    }
+
+    .policy-section p {
+        margin: 0 0 12px;
+        color: #694f4a;
+        font-size: 15px;
+        line-height: 1.85;
+    }
+
+    .policy-section ul {
+        margin: 12px 0 0;
+        padding-left: 22px;
+    }
+
+    .policy-section li {
+        margin-bottom: 9px;
+        color: #694f4a;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .policy-contact {
+        margin-top: 16px;
+        padding: 22px;
+        border: 1px solid #f2d1d8;
+        border-radius: 14px;
+        background: #fff8fa;
+    }
+
+    .policy-contact p {
+        margin-bottom: 8px;
+    }
+
+    .policy-contact p:last-child {
+        margin-bottom: 0;
+    }
+
+    .policy-contact a {
+        color: #fb6f83;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+        .policy-page {
+            padding: 40px 15px 65px;
+        }
+
+        .policy-banner {
+            padding: 38px 20px;
+            border-radius: 16px;
+        }
+
+        .policy-banner h1 {
+            font-size: 40px;
+        }
+
+        .policy-content {
+            padding: 28px 20px;
+            border-radius: 16px;
+        }
+
+        .policy-section h2 {
+            font-size: 26px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .policy-banner h1 {
+            font-size: 34px;
+        }
+
+        .policy-banner p,
+        .policy-section p,
+        .policy-section li {
+            font-size: 14px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="policy-page">
+    <div class="policy-container">
+
+        <div class="policy-banner">
+            <span class="policy-label">Your Privacy Matters</span>
+            <h1>Privacy Policy</h1>
+            <p>
+                This Privacy Policy explains how Cake Spot collects,
+                uses and protects your information when you browse our
+                website or place an order.
+            </p>
+            <span class="policy-date">Last updated: 31 July 2026</span>
+        </div>
+
+        <div class="policy-content">
+
+            <p class="policy-intro">
+                Cake Spot respects your privacy. By using our website,
+                creating an account or placing an order, you agree to
+                the practices described in this Privacy Policy.
+            </p>
+
+            <div class="policy-section">
+                <h2>1. Information We Collect</h2>
+                <p>
+                    We may collect information that you provide while
+                    creating an account, placing an order, submitting a
+                    customised cake request or contacting us.
+                </p>
+                <ul>
+                    <li>Full name</li>
+                    <li>Mobile number</li>
+                    <li>Email address</li>
+                    <li>Billing and delivery address</li>
+                    <li>Selected Cake Spot branch</li>
+                    <li>Order and product details</li>
+                    <li>Cake messages and customisation instructions</li>
+                    <li>Reference images uploaded for customised cakes</li>
+                    <li>Payment status and transaction reference</li>
+                    <li>Customer support communication</li>
+                    <li>Browser, device and basic technical information</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>2. How We Use Your Information</h2>
+                <ul>
+                    <li>To create and manage your account</li>
+                    <li>To process and confirm your order</li>
+                    <li>To prepare and customise your cake</li>
+                    <li>To send the order to your selected branch</li>
+                    <li>To contact you regarding delivery or pickup</li>
+                    <li>To issue order confirmations and invoices</li>
+                    <li>To process cancellation or refund requests</li>
+                    <li>To respond to customer enquiries</li>
+                    <li>To prevent fraud or misuse</li>
+                    <li>To improve our products and services</li>
+                    <li>To comply with legal requirements</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>3. Payment Information</h2>
+                <p>
+                    Online payments may be processed through authorised
+                    payment gateways, banks or payment service providers.
+                </p>
+                <p>
+                    Cake Spot does not store your complete debit card number,
+                    credit card number, CVV, UPI PIN, internet banking
+                    password or OTP.
+                </p>
+                <p>
+                    We may store the transaction reference, payment method,
+                    payment status and refund details required to manage
+                    your order.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>4. Customised Cake Information</h2>
+                <p>
+                    When you request a customised cake, you may provide
+                    photographs, reference images, names, messages, themes
+                    and other instructions.
+                </p>
+                <p>
+                    This information will be used only for reviewing your
+                    request, communicating with you and preparing the cake.
+                </p>
+                <p>
+                    Please upload only images and content that you have
+                    permission to use.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>5. Sharing Your Information</h2>
+                <p>
+                    Cake Spot does not sell or rent your personal
+                    information. We may share necessary information with:
+                </p>
+                <ul>
+                    <li>The Cake Spot branch handling your order</li>
+                    <li>Delivery and logistics partners</li>
+                    <li>Payment gateways and banking partners</li>
+                    <li>Website hosting and technical providers</li>
+                    <li>Accountants or professional advisers</li>
+                    <li>Government authorities when legally required</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>6. Cookies</h2>
+                <p>
+                    Our website may use cookies to maintain your login
+                    session, remember your cart, store preferences and
+                    improve website performance.
+                </p>
+                <p>
+                    You may disable cookies in your browser. However, some
+                    website functions may not work properly without
+                    essential cookies.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>7. Data Security</h2>
+                <p>
+                    We use reasonable administrative and technical measures
+                    to protect your information from unauthorised access,
+                    misuse, alteration or disclosure.
+                </p>
+                <p>
+                    Customers are responsible for keeping account passwords,
+                    payment OTPs and login details confidential.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>8. Data Retention</h2>
+                <p>
+                    We may retain order, payment, invoice and customer
+                    information for as long as reasonably required to
+                    process orders, provide support, maintain accounts and
+                    comply with legal requirements.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>9. Marketing Communication</h2>
+                <p>
+                    We may send information about offers, products, festival
+                    promotions and Cake Spot updates where permitted.
+                </p>
+                <p>
+                    You may ask us to stop sending promotional messages.
+                    Order-related messages may still be sent when required.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>10. Your Requests</h2>
+                <ul>
+                    <li>Correct inaccurate personal information</li>
+                    <li>Update your contact details</li>
+                    <li>Request access to eligible information</li>
+                    <li>Stop optional marketing communication</li>
+                    <li>Request deletion of eligible information</li>
+                    <li>Raise a privacy-related complaint</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>11. Third-Party Services</h2>
+                <p>
+                    Our website may use third-party services such as payment
+                    gateways, maps, social media platforms and delivery
+                    providers. Their handling of personal information is
+                    governed by their own privacy policies.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>12. Policy Updates</h2>
+                <p>
+                    We may update this Privacy Policy when our website,
+                    services or business practices change. The revised date
+                    will be displayed at the top of this page.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>13. Contact Us</h2>
+                <div class="policy-contact">
+                    <p><strong>Business:</strong> Cake Spot</p>
+                    <p>
+                        <strong>Email:</strong>
+                        <a href="mailto:cakespot26@gmail.com">cakespot26@gmail.com</a>
+                    </p>
+                    <p>
+                        <strong>Phone:</strong>
+                        <a href="tel:+919876543210">+91 9962297089</a>
+                    </p>
+                    <p>
+                        <strong>Branches:</strong>
+                        Iyappanthangal, Mangadu, Kovur and Porur
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

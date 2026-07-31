@@ -1,0 +1,484 @@
+{% extends "base.html" %}
+
+{% block title %}Return & Refund Policy | Cake Spot{% endblock %}
+
+{% block extra_css %}
+<style>
+    .policy-page {
+        padding: 70px 20px 90px;
+        background: #fffaf8;
+    }
+
+    .policy-container {
+        width: 100%;
+        max-width: 1050px;
+        margin: 0 auto;
+    }
+
+    .policy-banner {
+        margin-bottom: 35px;
+        padding: 50px 30px;
+        border: 1px solid #f2d5ce;
+        border-radius: 22px;
+        background:
+            radial-gradient(circle at top right, rgba(251,111,131,.18), transparent 35%),
+            linear-gradient(135deg, #fff7f4, #ffebe5);
+        text-align: center;
+    }
+
+    .policy-label {
+        display: inline-block;
+        margin-bottom: 12px;
+        color: #fb6f83;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    .policy-banner h1 {
+        margin: 0 0 15px;
+        color: #3b0804;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 54px;
+        line-height: 1.1;
+    }
+
+    .policy-banner p {
+        max-width: 720px;
+        margin: 0 auto;
+        color: #72524d;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    .policy-date {
+        display: inline-block;
+        margin-top: 18px;
+        padding: 8px 16px;
+        border-radius: 30px;
+        background: #ffffff;
+        color: #3b0804;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .policy-content {
+        padding: 45px;
+        border: 1px solid #f0ddda;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 15px 45px rgba(59,8,4,.06);
+    }
+
+    .policy-important {
+        margin: 0 0 32px;
+        padding: 20px;
+        border: 1px solid #ffd3dc;
+        border-left: 5px solid #fb6f83;
+        border-radius: 10px;
+        background: #fff7f8;
+    }
+
+    .policy-important strong {
+        display: block;
+        margin-bottom: 7px;
+        color: #3b0804;
+        font-size: 16px;
+    }
+
+    .policy-important p {
+        margin: 0;
+        color: #694f4a;
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    .policy-section {
+        margin-bottom: 34px;
+    }
+
+    .policy-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .policy-section h2 {
+        margin: 0 0 14px;
+        color: #3b0804;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 30px;
+    }
+
+    .policy-section h3 {
+        margin: 20px 0 10px;
+        color: #3b0804;
+        font-size: 17px;
+    }
+
+    .policy-section p {
+        margin: 0 0 12px;
+        color: #694f4a;
+        font-size: 15px;
+        line-height: 1.85;
+    }
+
+    .policy-section ul,
+    .policy-section ol {
+        margin: 12px 0 0;
+        padding-left: 22px;
+    }
+
+    .policy-section li {
+        margin-bottom: 9px;
+        color: #694f4a;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .policy-highlight {
+        margin-top: 16px;
+        padding: 18px 20px;
+        border: 1px solid #f3ddc9;
+        border-radius: 12px;
+        background: #fff9f3;
+    }
+
+    .policy-contact {
+        margin-top: 16px;
+        padding: 22px;
+        border: 1px solid #f2d1d8;
+        border-radius: 14px;
+        background: #fff8fa;
+    }
+
+    .policy-contact p {
+        margin-bottom: 8px;
+    }
+
+    .policy-contact p:last-child {
+        margin-bottom: 0;
+    }
+
+    .policy-contact a {
+        color: #fb6f83;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+        .policy-page {
+            padding: 40px 15px 65px;
+        }
+
+        .policy-banner {
+            padding: 38px 20px;
+            border-radius: 16px;
+        }
+
+        .policy-banner h1 {
+            font-size: 40px;
+        }
+
+        .policy-content {
+            padding: 28px 20px;
+            border-radius: 16px;
+        }
+
+        .policy-section h2 {
+            font-size: 26px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .policy-banner h1 {
+            font-size: 34px;
+        }
+
+        .policy-banner p,
+        .policy-section p,
+        .policy-section li {
+            font-size: 14px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="policy-page">
+    <div class="policy-container">
+
+        <div class="policy-banner">
+            <span class="policy-label">Order With Confidence</span>
+            <h1>Return &amp; Refund Policy</h1>
+            <p>
+                Please read this policy before placing an order.
+                Cakes and bakery products are freshly prepared,
+                customised and perishable.
+            </p>
+            <span class="policy-date">Last updated: 31 July 2026</span>
+        </div>
+
+        <div class="policy-content">
+
+            <div class="policy-important">
+                <strong>Important information</strong>
+                <p>
+                    Cake Spot sells freshly prepared and perishable food
+                    products. Products cannot generally be returned after
+                    delivery because of a change of mind. Genuine concerns
+                    involving incorrect, damaged, missing or unusable
+                    products will be reviewed fairly.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>1. Order Confirmation</h2>
+                <p>
+                    An order is confirmed after Cake Spot accepts the order
+                    and receives the required advance or full payment,
+                    where applicable.
+                </p>
+                <p>Customers must verify:</p>
+                <ul>
+                    <li>Product and flavour</li>
+                    <li>Cake weight</li>
+                    <li>Egg or eggless selection</li>
+                    <li>Message written on the cake</li>
+                    <li>Selected add-ons</li>
+                    <li>Delivery or pickup date and time</li>
+                    <li>Delivery address</li>
+                    <li>Customer mobile number</li>
+                    <li>Selected branch</li>
+                    <li>Customisation instructions</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>2. Standard Cake Cancellation</h2>
+                <p>
+                    A standard cake order may be eligible for cancellation
+                    when the request is received at least
+                    <strong>24 hours before</strong> the confirmed delivery
+                    or pickup time and preparation has not started.
+                </p>
+                <p>
+                    Same-day and urgent orders cannot normally be cancelled
+                    after confirmation.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>3. Customised Cake Cancellation</h2>
+                <p>Customised cakes include:</p>
+                <ul>
+                    <li>Theme cakes</li>
+                    <li>Photo cakes</li>
+                    <li>Fondant cakes</li>
+                    <li>Designer cakes</li>
+                    <li>Wedding and engagement cakes</li>
+                    <li>Character cakes</li>
+                    <li>Name or age-specific cakes</li>
+                    <li>Cakes prepared using reference images</li>
+                    <li>Cakes requiring special decorations</li>
+                </ul>
+                <p>
+                    Customised cake orders cannot normally be cancelled
+                    after design approval, ingredient purchase or
+                    preparation has started.
+                </p>
+                <p>
+                    An advance payment used for ingredients, edible prints,
+                    toppers, decorations or preparation may be non-refundable.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>4. Refund Eligibility</h2>
+                <p>
+                    A refund, replacement or other suitable resolution may
+                    be provided after verification when:
+                </p>
+                <ul>
+                    <li>A different product was delivered</li>
+                    <li>The product was materially damaged before delivery</li>
+                    <li>A paid product or add-on was missing</li>
+                    <li>The product was unfit for consumption at delivery</li>
+                    <li>Cake Spot could not fulfil the confirmed order</li>
+                    <li>The customer was charged more than once</li>
+                    <li>Payment succeeded but no valid order was created</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>5. Non-Refundable Cases</h2>
+                <ul>
+                    <li>Change of mind after preparation has started</li>
+                    <li>Personal taste or sweetness preferences</li>
+                    <li>Incorrect options selected by the customer</li>
+                    <li>Incorrect or incomplete delivery address</li>
+                    <li>Incorrect customer mobile number</li>
+                    <li>Recipient unavailability</li>
+                    <li>Delay caused by incorrect directions</li>
+                    <li>Damage occurring after successful delivery</li>
+                    <li>Improper storage after delivery or pickup</li>
+                    <li>Failure to refrigerate the product when required</li>
+                    <li>Products substantially consumed before verification</li>
+                    <li>Minor handmade design or colour variations</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>6. Handmade Cake Variations</h2>
+                <p>
+                    Cakes are handmade products. A completed cake may not
+                    be an exact copy of a website image or reference image.
+                </p>
+                <p>
+                    Minor variations in colour, decoration, flowers, cream
+                    finish, writing, size or shade are normal and do not
+                    automatically qualify for a refund.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>7. Reporting a Problem</h2>
+                <p>
+                    Incorrect, damaged, missing or unusable products should
+                    be reported within <strong>2 hours</strong> of delivery
+                    or pickup.
+                </p>
+                <ol>
+                    <li>Provide your order number</li>
+                    <li>Provide your name and mobile number</li>
+                    <li>Describe the issue clearly</li>
+                    <li>Share clear photographs or videos</li>
+                    <li>Share a photograph of the packaging</li>
+                    <li>Provide the payment reference when relevant</li>
+                </ol>
+            </div>
+
+            <div class="policy-section">
+                <h2>8. Replacement</h2>
+                <p>
+                    Where practical, Cake Spot may offer a correction or
+                    replacement instead of a refund.
+                </p>
+                <p>
+                    Replacement availability depends on preparation time,
+                    product availability, delivery location and the nature
+                    of the issue.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>9. Refund Processing</h2>
+
+                <h3>Online payments</h3>
+                <p>
+                    Approved refunds will normally be initiated to the
+                    original payment method.
+                </p>
+
+                <h3>Cash on delivery</h3>
+                <p>
+                    Approved cash-on-delivery refunds may be provided
+                    through UPI, bank transfer, store credit or another
+                    agreed method.
+                </p>
+
+                <h3>Advance payments</h3>
+                <p>
+                    The refundable amount depends on preparation status and
+                    costs already incurred for ingredients, design,
+                    decorations and customisation.
+                </p>
+
+                <div class="policy-highlight">
+                    <p>
+                        Cake Spot generally aims to initiate approved refunds
+                        within <strong>5–7 business days</strong>. Additional
+                        bank or payment provider processing time may apply.
+                    </p>
+                </div>
+            </div>
+
+            <div class="policy-section">
+                <h2>10. Failed or Duplicate Payments</h2>
+                <p>
+                    When an amount is deducted but the order is not
+                    confirmed, customers should check their bank statement
+                    and Cake Spot account.
+                </p>
+                <p>
+                    Contact us with the transaction reference if the amount
+                    is not automatically reversed or the order does not
+                    appear.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>11. Delivery Delays</h2>
+                <p>
+                    Delivery times may be affected by traffic, weather,
+                    road restrictions, festival demand, vehicle issues,
+                    incorrect addresses or circumstances outside our control.
+                </p>
+                <p>
+                    A reasonable delay does not automatically qualify for
+                    a full refund. Serious delays will be reviewed
+                    individually.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>12. Product Storage</h2>
+                <ul>
+                    <li>Keep the cake level during transportation</li>
+                    <li>Protect the cake from direct sunlight and heat</li>
+                    <li>Refrigerate the cake when advised</li>
+                    <li>Do not place heavy objects on the cake box</li>
+                </ul>
+                <p>
+                    Cake Spot is not responsible for damage caused by
+                    improper handling or storage after successful delivery.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>13. Allergen Information</h2>
+                <p>
+                    Customers must inform Cake Spot about relevant food
+                    allergies before confirming an order.
+                </p>
+                <p>
+                    Our kitchen may handle milk, nuts, gluten, soy, eggs and
+                    other allergens. We cannot guarantee that products are
+                    completely free from traces of allergens unless
+                    specifically confirmed.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>14. Contact Cake Spot</h2>
+                <div class="policy-contact">
+                    <p><strong>Business:</strong> Cake Spot</p>
+                    <p>
+                        <strong>Email:</strong>
+                        <a href="mailto:cakespot26@gmail.com">cakespot26@gmail.com</a>
+                    </p>
+                    <p>
+                        <strong>Phone:</strong>
+                        <a href="tel:+919876543210">+91 9962297089</a>
+                    </p>
+                    <p>
+                        <strong>Branches:</strong>
+                        Iyappanthangal, Mangadu, Kovur and Porur
+                    </p>
+                    <p>Please include your order number when contacting us.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

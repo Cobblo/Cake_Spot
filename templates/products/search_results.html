@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results | Cake Spot{% endblock %}
+
+{% block content %}
+
+<section class="category-page">
+
+    <div class="section-title">
+        <h2>Search Results</h2>
+
+        {% if keyword %}
+            <p>Results for "{{ keyword }}"</p>
+        {% endif %}
+    </div>
+
+    <div class="category-page-grid">
+
+        {% for product in products %}
+
+        <div class="category-page-card">
+
+            <a href="{% url 'product_detail' product.slug %}">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            </a>
+
+            <h3>
+                <a href="{% url 'product_detail' product.slug %}">
+                    {{ product.name }}
+                </a>
+            </h3>
+
+            <p style="font-size:22px; color:#2d130d; margin-bottom:15px;">
+                ₹{{ product.price|floatformat:0 }}
+            </p>
+
+            <a href="{% url 'product_detail' product.slug %}"
+               class="category-view-btn">
+               View Cake
+            </a>
+
+        </div>
+
+        {% empty %}
+
+        <div style="grid-column:1/-1; text-align:center;">
+            <h3>No cakes found</h3>
+            <p>Try another search keyword.</p>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

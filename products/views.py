@@ -22,13 +22,48 @@ def categories(request):
     products = Product.objects.filter(is_available=True)
 
     selected_category = request.GET.get('category')
+    selected_category_obj = None
 
     if selected_category:
-        category = get_object_or_404(Category, slug=selected_category)
-        products = products.filter(category=category)
+        selected_category_obj = get_object_or_404(Category, slug=selected_category)
+        products = products.filter(category=selected_category_obj)
 
     return render(request, 'products/categories.html', {
         'categories': categories,
         'products': products,
         'selected_category': selected_category,
+        'selected_category_obj': selected_category_obj,
     })
+
+def search(request):
+    keyword = request.GET.get('keyword', '')
+
+    products = Product.objects.filter(
+        name__icontains=keyword,
+        is_available=True
+    )
+
+    return render(request, 'products/search_results.html', {
+        'products': products,
+        'keyword': keyword
+    })
+
+def category_products(request, category_slug):
+
+    category = Category.objects.get(slug=category_slug)
+
+    products = Product.objects.filter(
+        category=category,
+        is_available=True
+    )
+
+    context = {
+        'category': category,
+        'products': products,
+    }
+
+    return render(
+        request,
+        'products/category_products.html',
+        context
+    )

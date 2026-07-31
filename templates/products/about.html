@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us | Cake Spot{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="about-hero">
+    <div class="about-hero-content">
+        <span>About Us</span>
+        <h1>Crafted with Love,<br>Baked for Every Celebration</h1>
+        <p>
+            Fresh cakes, beautiful designs, and sweet memories made specially for you.
+        </p>
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="about-container">
+
+        <div class="about-text">
+            <span class="small-title">Cake Spot</span>
+            <h2>We Make Your Celebrations Sweeter</h2>
+
+            <p>
+                At <strong>Cake Spot</strong>, we believe every celebration deserves a cake
+                that is fresh, delicious, and beautifully designed.
+            </p>
+
+            <p>
+                From birthdays and anniversaries to weddings, baby showers, and special
+                events, every cake is handcrafted with care using quality ingredients.
+            </p>
+
+            <p>
+                Whether you choose our signature cakes or request a custom design,
+                we make every order with love and attention to detail.
+            </p>
+
+            <a href="{% url 'categories' %}" class="about-btn">Explore Cakes</a>
+        </div>
+
+        <div class="about-image">
+            <img src="{% static 'images/cake.png' %}" alt="Cake Spot">
+        </div>
+
+    </div>
+</section>
+
+<section class="why-section">
+    <div class="section-title">
+        <span>WHY CHOOSE US</span>
+        <h2>Fresh, Beautiful & Made with Love</h2>
+    </div>
+
+    <div class="why-grid">
+
+        <!-- Freshly Baked -->
+        <div class="why-card">
+
+            <div class="why-icon-circle">
+                <i class="fa-solid fa-cake-candles"></i>
+            </div>
+
+            <div class="why-divider"></div>
+
+            <h3>Freshly Baked</h3>
+
+            <p>
+                Every cake is freshly baked on order to deliver
+                the perfect taste and freshness.
+            </p>
+
+        </div>
+
+        <!-- Premium Ingredients -->
+        <div class="why-card">
+
+            <div class="why-icon-circle">
+                <i class="fa-solid fa-seedling"></i>
+            </div>
+
+            <div class="why-divider"></div>
+
+            <h3>Premium Ingredients</h3>
+
+            <p>
+                Prepared using premium ingredients,
+                rich cream and the finest flavours.
+            </p>
+
+        </div>
+
+        <!-- Custom Designs -->
+        <div class="why-card">
+
+            <div class="why-icon-circle">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+
+            <div class="why-divider"></div>
+
+            <h3>Custom Designs</h3>
+
+            <p>
+                Personalized cakes beautifully crafted
+                for birthdays, weddings and celebrations.
+            </p>
+
+        </div>
+
+        <!-- Delivery -->
+        <div class="why-card">
+
+            <div class="why-icon-circle">
+                <i class="fa-solid fa-truck-fast"></i>
+            </div>
+
+            <div class="why-divider"></div>
+
+            <h3>Fast Delivery</h3>
+
+            <p>
+                Safe and on-time cake delivery across
+                Chennai with utmost care.
+            </p>
+
+        </div>
+
+    </div>
+</section>
+
+
+{% endblock %}

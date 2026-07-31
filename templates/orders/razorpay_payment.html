@@ -1,0 +1,607 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Online Payment | Cake Spot{% endblock %}
+
+{% block content %}
+
+<section class="razorpay-page">
+
+    <div class="razorpay-box">
+
+        {% if payment_type == "ADVANCE" %}
+
+            <span class="payment-badge">
+                50% Advance Payment
+            </span>
+
+            <h1>Pay Your Advance</h1>
+
+            <p>
+                Pay the advance amount now to confirm your order.
+            </p>
+
+        {% elif payment_type == "BALANCE" %}
+
+            <span class="payment-badge">
+                Balance Payment
+            </span>
+
+            <h1>Complete Your Payment</h1>
+
+            <p>
+                Pay the remaining balance for your order.
+            </p>
+
+        {% else %}
+
+            <span class="payment-badge">
+                Full Payment
+            </span>
+
+            <h1>Complete Your Payment</h1>
+
+            <p>
+                Pay the full amount securely through Razorpay.
+            </p>
+
+        {% endif %}
+
+
+        <div class="payment-details">
+
+            <div class="payment-detail-row">
+
+                <span>Order Number</span>
+
+                <strong>
+                    {{ order.order_number }}
+                </strong>
+
+            </div>
+
+            <div class="payment-detail-row">
+
+                <span>Grand Total</span>
+
+                <strong>
+                    ₹{{ order.grand_total|floatformat:2 }}
+                </strong>
+
+            </div>
+
+
+            {% if payment_type == "ADVANCE" %}
+
+                <div class="payment-detail-row highlight-row">
+
+                    <span>Advance Amount</span>
+
+                    <strong>
+                        ₹{{ display_amount|floatformat:2 }}
+                    </strong>
+
+                </div>
+
+                <div class="payment-detail-row">
+
+                    <span>Balance Later</span>
+
+                    <strong>
+                        ₹{{ display_amount|floatformat:2 }}
+                    </strong>
+
+                </div>
+
+            {% elif payment_type == "BALANCE" %}
+
+                <div class="payment-detail-row">
+
+                    <span>Already Paid</span>
+
+                    <strong>
+                        ₹{{ order.paid_amount|floatformat:2 }}
+                    </strong>
+
+                </div>
+
+                <div class="payment-detail-row highlight-row">
+
+                    <span>Balance to Pay</span>
+
+                    <strong>
+                        ₹{{ display_amount|floatformat:2 }}
+                    </strong>
+
+                </div>
+
+            {% else %}
+
+                <div class="payment-detail-row highlight-row">
+
+                    <span>Amount to Pay</span>
+
+                    <strong>
+                        ₹{{ display_amount|floatformat:2 }}
+                    </strong>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        {% if payment_type == "ADVANCE" %}
+
+            <p class="payment-note">
+                After successful payment, your advance receipt
+                will be sent to your registered email address.
+            </p>
+
+        {% elif payment_type == "BALANCE" %}
+
+            <p class="payment-note">
+                After successful balance payment, your final invoice
+                will be sent to your registered email address.
+            </p>
+
+        {% else %}
+
+            <p class="payment-note">
+                After successful payment, your final invoice
+                will be sent to your registered email address.
+            </p>
+
+        {% endif %}
+
+
+        <button
+            id="rzp-button"
+            class="pay-now-btn"
+            type="button"
+        >
+
+            {% if payment_type == "ADVANCE" %}
+
+                Pay Advance ₹{{ display_amount|floatformat:2 }}
+
+            {% elif payment_type == "BALANCE" %}
+
+                Pay Balance ₹{{ display_amount|floatformat:2 }}
+
+            {% else %}
+
+                Pay ₹{{ display_amount|floatformat:2 }}
+
+            {% endif %}
+
+        </button>
+
+
+        {% if payment_type == "BALANCE" %}
+
+            <a
+                href="{% url 'order_success' order.order_number %}"
+                class="back-checkout-link"
+            >
+                Back to Order
+            </a>
+
+        {% else %}
+
+            <a
+                href="{% url 'checkout' %}"
+                class="back-checkout-link"
+            >
+                Back to Checkout
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<form
+    id="payment-success-form"
+    method="POST"
+    action="{{ payment_success_url }}"
+    style="display: none;"
+>
+    {% csrf_token %}
+
+    <input
+        type="hidden"
+        name="order_id"
+        value="{{ order.id }}"
+    >
+
+    <input
+        type="hidden"
+        name="razorpay_payment_id"
+        id="razorpay_payment_id"
+    >
+
+    <input
+        type="hidden"
+        name="razorpay_order_id"
+        id="razorpay_order_id"
+    >
+
+    <input
+        type="hidden"
+        name="razorpay_signature"
+        id="razorpay_signature"
+    >
+
+</form>
+
+
+<!-- Razorpay checkout library -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const payButton = document.getElementById("rzp-button");
+
+    const paymentForm = document.getElementById(
+        "payment-success-form"
+    );
+
+    if (!payButton || !paymentForm) {
+        console.error(
+            "Razorpay payment button or success form was not found."
+        );
+        return;
+    }
+
+    const paymentType = "{{ payment_type|escapejs }}";
+
+    const displayAmount =
+        "{{ display_amount|floatformat:2|escapejs }}";
+
+    let paymentDescription = "Cake Order Full Payment";
+    let buttonText = "Pay ₹" + displayAmount;
+
+    if (paymentType === "ADVANCE") {
+
+        paymentDescription =
+            "Cake Order 50% Advance Payment";
+
+        buttonText =
+            "Pay Advance ₹" + displayAmount;
+
+    } else if (paymentType === "BALANCE") {
+
+        paymentDescription =
+            "Cake Order Balance Payment";
+
+        buttonText =
+            "Pay Balance ₹" + displayAmount;
+
+    }
+
+
+    function resetButton() {
+
+        payButton.disabled = false;
+        payButton.textContent = buttonText;
+
+    }
+
+
+    payButton.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+            if (typeof Razorpay === "undefined") {
+
+                alert(
+                    "Razorpay could not be loaded. " +
+                    "Please check your internet connection " +
+                    "and refresh the page."
+                );
+
+                return;
+            }
+
+            const options = {
+
+                key: "{{ razorpay_key|escapejs }}",
+
+                amount: Number("{{ amount }}"),
+
+                currency: "INR",
+
+                name: "Cake Spot",
+
+                description: paymentDescription,
+
+                order_id:
+                    "{{ razorpay_order_id|escapejs }}",
+
+                handler: function (response) {
+
+                    document.getElementById(
+                        "razorpay_payment_id"
+                    ).value =
+                        response.razorpay_payment_id;
+
+                    document.getElementById(
+                        "razorpay_order_id"
+                    ).value =
+                        response.razorpay_order_id;
+
+                    document.getElementById(
+                        "razorpay_signature"
+                    ).value =
+                        response.razorpay_signature;
+
+                    payButton.disabled = true;
+
+                    payButton.textContent =
+                        "Verifying Payment...";
+
+                    paymentForm.submit();
+                },
+
+                prefill: {
+
+                    name:
+                        "{{ order.first_name|escapejs }} " +
+                        "{{ order.last_name|escapejs }}",
+
+                    email:
+                        "{{ order.email|escapejs }}",
+
+                    contact:
+                        "{{ order.phone|escapejs }}"
+
+                },
+
+                notes: {
+
+                    order_number:
+                        "{{ order.order_number|escapejs }}",
+
+                    payment_type:
+                        "{{ payment_type|escapejs }}"
+
+                },
+
+                theme: {
+
+                    color: "#f06b7c"
+
+                },
+
+                modal: {
+
+                    ondismiss: function () {
+
+                        resetButton();
+
+                    }
+
+                }
+
+            };
+
+
+            try {
+
+                payButton.disabled = true;
+
+                payButton.textContent =
+                    "Opening Payment...";
+
+                const razorpayCheckout =
+                    new Razorpay(options);
+
+                razorpayCheckout.on(
+                    "payment.failed",
+                    function (response) {
+
+                        let errorMessage =
+                            "Payment failed. Please try again.";
+
+                        if (
+                            response.error &&
+                            response.error.description
+                        ) {
+                            errorMessage =
+                                response.error.description;
+                        }
+
+                        alert(errorMessage);
+
+                        resetButton();
+                    }
+                );
+
+                razorpayCheckout.open();
+
+            } catch (error) {
+
+                console.error(
+                    "Razorpay checkout error:",
+                    error
+                );
+
+                alert(
+                    "Unable to open the payment window. " +
+                    "Please refresh the page and try again."
+                );
+
+                resetButton();
+            }
+
+        }
+    );
+
+});
+</script>
+
+
+<style>
+
+    .razorpay-page {
+        min-height: 72vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 70px 20px;
+        background: #fff8f5;
+    }
+
+    .razorpay-box {
+        width: 100%;
+        max-width: 540px;
+        padding: 46px 36px;
+        text-align: center;
+        background: #ffffff;
+        border: 1px solid #f0dfd8;
+        border-radius: 18px;
+        box-shadow: 0 15px 40px rgba(59, 8, 4, 0.08);
+    }
+
+    .payment-badge {
+        display: inline-block;
+        margin-bottom: 14px;
+        padding: 7px 14px;
+        background: #fff0ec;
+        border: 1px solid #f3d2c9;
+        border-radius: 999px;
+        color: #f06b7c;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+    }
+
+    .razorpay-box h1 {
+        margin: 0 0 14px;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 42px;
+        color: #3b0804;
+    }
+
+    .razorpay-box > p {
+        margin: 10px 0;
+        font-size: 16px;
+        line-height: 1.6;
+        color: #5f4a44;
+    }
+
+    .payment-details {
+        margin-top: 30px;
+        padding: 10px 20px;
+        background: #fffaf8;
+        border: 1px solid #f1ded7;
+        border-radius: 14px;
+        text-align: left;
+    }
+
+    .payment-detail-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 14px 0;
+        border-bottom: 1px solid #f0dfd8;
+        color: #634f48;
+    }
+
+    .payment-detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .payment-detail-row strong {
+        color: #3b0804;
+        text-align: right;
+    }
+
+    .highlight-row {
+        font-size: 18px;
+    }
+
+    .highlight-row strong {
+        color: #f06b7c;
+    }
+
+    .payment-note {
+        margin-top: 22px !important;
+        padding: 14px 16px;
+        background: #fff3ef;
+        border-left: 4px solid #f06b7c;
+        border-radius: 8px;
+        text-align: left;
+        font-size: 13px !important;
+        line-height: 1.6;
+    }
+
+    .pay-now-btn {
+        width: 100%;
+        margin-top: 28px;
+        padding: 16px 20px;
+        border: none;
+        border-radius: 9px;
+        background: #f06b7c;
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+
+    .pay-now-btn:hover {
+        background: #dd586a;
+    }
+
+    .pay-now-btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+
+    .back-checkout-link {
+        display: inline-block;
+        margin-top: 22px;
+        color: #3b0804;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .back-checkout-link:hover {
+        color: #f06b7c;
+    }
+
+    @media screen and (max-width: 600px) {
+
+        .razorpay-page {
+            padding: 45px 15px;
+        }
+
+        .razorpay-box {
+            padding: 35px 20px;
+        }
+
+        .razorpay-box h1 {
+            font-size: 34px;
+        }
+
+        .payment-details {
+            padding: 8px 15px;
+        }
+
+        .payment-detail-row {
+            font-size: 14px;
+        }
+
+    }
+
+</style>
+
+{% endblock %}

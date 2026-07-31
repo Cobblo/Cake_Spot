@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Branches | Cake Spot{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/branches.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="branches-hero">
+
+
+    <div class="branches-grid">
+
+        <div class="branch-card">
+            <div class="branch-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <h3>Iyappanthangal - 1</h3>
+            <p>Fresh cakes and custom orders available.</p>
+            <a href="tel:+918754546089">+91 8754546089</a>
+            <a class="whatsapp-btn" href="https://wa.me/918754546089" target="_blank">WhatsApp</a>
+        </div>
+
+        <div class="branch-card">
+            <div class="branch-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <h3>Iyappanthangal - 2</h3>
+            <p>Fresh cakes and custom orders available.</p>
+            <a href="tel:+919962297089">+91 9962297089</a>
+            <a class="whatsapp-btn" href="https://wa.me/919962297089" target="_blank">WhatsApp</a>
+        </div>
+
+        <div class="branch-card">
+            <div class="branch-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <h3>Porur</h3>
+            <p>Order birthday, anniversary and custom cakes.</p>
+            <a href="tel:+919962247089">+91 9962247089</a>
+            <a class="whatsapp-btn" href="https://wa.me/919962247089" target="_blank">WhatsApp</a>
+        </div>
+
+        <div class="branch-card">
+            <div class="branch-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <h3>Kovur</h3>
+            <p>Fresh cakes delivered safely around nearby areas.</p>
+            <a href="tel:+919384107089">+91 9384107089</a>
+            <a class="whatsapp-btn" href="https://wa.me/919384107089" target="_blank">WhatsApp</a>
+        </div>
+
+        <div class="branch-card">
+            <div class="branch-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <h3>Mangadu</h3>
+            <p>Custom cakes, theme cakes and celebration cakes.</p>
+            <a href="tel:+919176257089">+91 9176257089</a>
+            <a class="whatsapp-btn" href="https://wa.me/919176257089" target="_blank">WhatsApp</a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
