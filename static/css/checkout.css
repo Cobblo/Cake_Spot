@@ -1,0 +1,101 @@
+/* ================= PAYMENT OPTIONS ================= */
+
+.online-payment-options {
+    margin-top: 28px;
+}
+
+.online-payment-options h3 {
+    margin-bottom: 16px;
+}
+
+.payment-plan-option {
+    align-items: flex-start;
+}
+
+.payment-option-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.payment-option-content strong {
+    color: #3b0804;
+    font-size: 16px;
+}
+
+.payment-option-content small {
+    color: #725d55;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.payment-breakdown {
+    margin-top: 25px;
+    padding: 18px;
+    border-radius: 12px;
+    background: #fff7f3;
+    border: 1px solid #f3d8ce;
+}
+
+.payment-breakdown .summary-line {
+    margin: 0;
+    padding: 8px 0;
+}
+
+.payment-note {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: #fff3ef;
+    border-left: 4px solid #fb6f83;
+    border-radius: 8px;
+    color: #624c45;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.place-order-btn {
+    width: 100%;
+    margin-top: 25px;
+}
+
+/* ================= LOCATION DROPDOWN ================= */
+
+.location-field{
+    margin:22px 0;
+}
+
+.location-field label{
+    display:block;
+    margin-bottom:10px;
+    font-size:15px;
+    font-weight:600;
+    color:#3b0804;
+}
+
+.location-field select{
+    width:100%;
+    height:58px;
+    padding:0 18px;
+    border:1px solid #e6d8d3;
+    border-radius:12px;
+    background:#fff;
+    color:#3b0804;
+    font-size:15px;
+    font-family:'Poppins',sans-serif;
+    cursor:pointer;
+    outline:none;
+    transition:.25s;
+}
+
+.location-field select:hover{
+    border-color:#f06b7c;
+}
+
+.location-field select:focus{
+    border-color:#f06b7c;
+    box-shadow:0 0 0 4px rgba(240,107,124,.12);
+}
+
+.location-field option{
+    color:#3b0804;
+}

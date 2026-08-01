@@ -1,0 +1,187 @@
+.branches-hero{
+    min-height:380px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:80px 20px;
+    background:
+        radial-gradient(circle at 8% 18%, rgba(255,214,198,.55) 0 90px, transparent 91px),
+        radial-gradient(circle at 92% 82%, rgba(255,197,185,.45) 0 120px, transparent 121px),
+        linear-gradient(135deg,#fff9f5 0%,#ffefe8 45%,#f9dcd4 100%);
+    font-family:'Cormorant Garamond', serif;
+}
+
+.branches-section,
+.branch-card{
+    font-family:'Cormorant Garamond', serif;
+}
+
+.branches-hero span,
+.branches-title span{
+    color:#fb6f83;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.branches-hero h1{
+    font-family:'Cormorant Garamond', serif;
+    font-size:58px;
+    color:#3b0804;
+    margin:12px 0;
+}
+
+.branches-hero p{
+    font-size:18px;
+    color:#5a2b24;
+}
+
+.branches-section{
+    padding:80px 6%;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(255,188,178,.35) 0 140px, transparent 141px),
+        radial-gradient(circle at 100% 100%, rgba(255,188,178,.30) 0 150px, transparent 151px),
+        linear-gradient(180deg,#fff8f5 0%,#fff1ec 100%);
+}
+
+.branches-title{
+    text-align:center;
+    margin-bottom:45px;
+}
+
+.branches-title h2{
+    font-family:'Cormorant Garamond', serif;
+    font-size:46px;
+    color:#3b0804;
+    margin-top:10px;
+}
+
+.branches-grid{
+    max-width:1150px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:25px;
+}
+
+.branch-card{
+    background:#fff;
+    padding:34px 24px;
+    border-radius:22px;
+    text-align:center;
+    border:1px solid #f1ded8;
+    box-shadow:0 16px 38px rgba(60,20,15,.12);
+    transition:.3s ease;
+}
+
+.branch-card:hover{
+    transform:translateY(-8px);
+}
+
+.branch-icon{
+    font-size:36px;
+    margin-bottom:12px;
+}
+
+.branch-card h3{
+    font-family:'Cormorant Garamond', serif;
+    font-size:28px;
+    color:#3b0804;
+    margin-bottom:10px;
+}
+
+.branch-card p{
+    font-size:15px;
+    color:#5a2b24;
+    line-height:1.6;
+    min-height:50px;
+    font-weight:600;
+}
+
+.branch-card a{
+    display:block;
+    color:#fb6f83;
+    font-size:18px;
+    font-weight:700;
+    text-decoration:none;
+    margin-top:14px;
+}
+
+.branch-card a[href^="tel:"]{
+    font-family:"Cinzel", serif;
+    white-space:nowrap;
+    display:inline-block;
+    letter-spacing:0.4px;
+    margin-top:12px;
+}
+
+.whatsapp-btn{
+    background:#fb6f83;
+    color:#fff !important;
+    padding:12px 26px;
+    border-radius:40px;
+    margin-top:18px !important;
+}
+
+.whatsapp-btn:hover{
+    background:#3b0804;
+}
+
+@media(max-width:992px){
+    .branches-grid{
+        grid-template-columns:repeat(2, 1fr);
+    }
+
+    .branches-hero h1{
+        font-size:44px;
+    }
+}
+
+@media(max-width:576px){
+    .branches-hero{
+        min-height:300px;
+        padding:60px 18px;
+    }
+
+    .branches-hero h1{
+        font-size:36px;
+    }
+
+    .branches-section{
+        padding:55px 18px;
+    }
+
+    .branches-title h2{
+        font-size:34px;
+    }
+
+    .branches-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+/* LOCATION PAGE ICON COLOR FIX */
+
+.branch-icon i,
+.location-icon i,
+.location-card i,
+.branch-card i{
+    color:#fb6f83 !important;
+}
+
+.branch-icon,
+.location-icon{
+    border-color:#fb6f83 !important;
+}
+
+.branch-card:hover .branch-icon,
+.location-card:hover .location-icon{
+    background:#fb6f83 !important;
+}
+
+.branch-card:hover .branch-icon i,
+.location-card:hover .location-icon i{
+    color:#fff !important;
+}

@@ -1,0 +1,622 @@
+/* ================= PRODUCT DETAIL PAGE ================= */
+
+.cs-product-page{
+    width:100%;
+    min-height:100vh;
+    padding:34px 5% 60px;
+    background:
+        url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffd9df' stroke-width='2' opacity='0.22'%3E%3Ccircle cx='25' cy='25' r='14'/%3E%3Ccircle cx='85' cy='85' r='14'/%3E%3C/g%3E%3C/svg%3E"),
+        #fff4ef;
+    background-size:165px;
+    color:#2a120c;
+}
+
+.cs-product-wrap,
+.cs-feature-area,
+.cs-about-card{
+    max-width:1320px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+/* TOP */
+
+.cs-product-wrap{
+    display:grid;
+    grid-template-columns:0.98fr 1fr;
+    gap:26px;
+    align-items:center;
+}
+
+/* GALLERY */
+
+.cs-product-gallery{
+    display:grid;
+    grid-template-columns:72px 1fr;
+    gap:16px;
+    align-items:center;
+}
+
+.cs-thumbs{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+}
+
+.cs-thumbs img{
+    width:68px;
+    height:68px;
+    object-fit:cover;
+    border-radius:10px;
+    border:2px solid transparent;
+    background:#fff;
+    cursor:pointer;
+    box-shadow:0 8px 18px rgba(52,18,12,.12);
+}
+
+.cs-thumbs img.cs-active-thumb,
+.cs-thumbs img:hover{
+    border-color:#f04468;
+}
+
+.cs-thumb-more{
+    width:36px;
+    height:36px;
+    border:none;
+    border-radius:50%;
+    background:#fff;
+    color:#2a120c;
+    cursor:pointer;
+    box-shadow:0 8px 18px rgba(52,18,12,.12);
+}
+
+.cs-main-image{
+    height:500px;
+    border-radius:17px;
+    overflow:hidden;
+    background:#fff;
+    box-shadow:0 18px 42px rgba(52,18,12,.12);
+}
+
+.cs-main-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.cs-zoom-btn{
+    display:none;
+}
+
+/* RIGHT CARD */
+
+.cs-product-card{
+    min-height:480px;
+    background:#fff;
+    border:1px solid #ffe1e6;
+    border-radius:22px;
+    padding:28px 38px 24px;
+    box-shadow:0 18px 42px rgba(52,18,12,.08);
+    display:flex;
+    flex-direction:column;
+}
+
+.cs-badge{
+    display:inline-block;
+    width:fit-content;
+    padding:7px 14px;
+    background:#ffe0e6;
+    color:#ef4765;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.4px;
+}
+
+.cs-product-card h1{
+    font-family:'Cormorant Garamond', serif;
+    font-size:38px;
+    font-weight:700;
+    line-height:1;
+    margin:16px 0 12px;
+    color:#2d130d;
+}
+
+/* PRICE - CINZEL */
+
+.cs-price-row{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:14px;
+}
+
+.cs-price,
+.cs-price span,
+#product-price{
+    margin:0;
+    font-family:"Cinzel", serif !important;
+    font-size:22px !important;
+    font-weight:700 !important;
+    color:#ef4765 !important;
+    line-height:1 !important;
+    letter-spacing:.5px !important;
+}
+
+.cs-tax{
+    font-family:'Cormorant Garamond', serif !important;
+    font-size:16px;
+    color:#6e5c57;
+    font-weight:500;
+}
+
+/* DIVIDER */
+
+.cs-divider{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    gap:12px;
+    margin:12px 0 16px;
+    color:#ef4765;
+}
+
+.cs-divider span{
+    height:1px;
+    background:#ffd5dd;
+}
+
+.cs-divider i{
+    font-size:9px;
+}
+
+/* FORM */
+
+.cs-product-form{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.cs-form-content{
+    flex:1;
+}
+
+.cs-option-block{
+    margin-bottom:12px;
+}
+
+.cs-option-block h3{
+    font-family:'Cormorant Garamond', serif;
+    font-size:17px;
+    font-weight:700;
+    margin-bottom:9px;
+    color:#2a120c;
+}
+
+.cs-btn-row,
+.cs-weight-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+}
+
+.cs-option-btn{
+    min-width:90px;
+    height:37px;
+    border:1.5px solid #f04468;
+    border-radius:8px;
+    background:#fff;
+    color:#111;
+    font-size:14px;
+    cursor:pointer;
+}
+
+.cs-option-btn.active,
+.cs-option-btn:hover{
+    background:linear-gradient(135deg,#f45f78,#ef3f64);
+    color:#fff;
+    box-shadow:0 8px 18px rgba(239,71,101,.20);
+}
+
+.cs-message-box{
+    position:relative;
+    width:100%;
+}
+
+.cs-message-box input{
+    width:100%;
+    height:42px;
+    border:1.5px solid #f04468;
+    border-radius:8px;
+    background:#fff;
+    outline:none;
+    padding:0 72px 0 14px;
+    font-size:14px;
+}
+
+#messageCount{
+    position:absolute;
+    right:14px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#9d8580;
+    font-size:12px;
+}
+
+/* CART BUTTON */
+
+.cs-cart-btn{
+    margin:8px auto 0;
+    width:260px;
+    height:46px;
+    border:none;
+    border-radius:9px;
+    background:linear-gradient(135deg,#f95c7a,#ef4765);
+    color:#fff;
+    font-family:'Cormorant Garamond', serif;
+    font-size:20px;
+    font-weight:700;
+    letter-spacing:.2px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    cursor:pointer;
+    box-shadow:0 14px 26px rgba(239,71,101,.24);
+}
+
+.cs-cart-btn i{
+    font-size:13px;
+}
+
+/* FEATURES */
+
+.cs-feature-area{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:0.98fr 1fr;
+    gap:18px;
+}
+
+.cs-feature-box{
+    background:#fff;
+    border:1px solid #ffe1e6;
+    border-radius:16px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    overflow:hidden;
+    box-shadow:0 14px 32px rgba(52,18,12,.08);
+}
+
+.cs-feature-box:nth-child(2){
+    grid-template-columns:repeat(3,1fr);
+}
+
+.cs-feature-item{
+    padding:14px 15px;
+    display:grid;
+    grid-template-columns:38px 1fr;
+    gap:10px;
+    align-items:center;
+    border-right:1px solid #ffe1e6;
+}
+
+.cs-feature-item:last-child{
+    border-right:none;
+}
+
+.cs-feature-item span{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#ffe8ec;
+    color:#f04468;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+}
+
+.cs-feature-item h4{
+    font-size:13px;
+    margin-bottom:3px;
+    color:#2a120c;
+}
+
+.cs-feature-item p{
+    color:#765b55;
+    font-size:11.5px;
+}
+
+/* ABOUT */
+
+.cs-about-card{
+    margin-top:20px;
+    background:#fff;
+    border:1px solid #ffe1e6;
+    border-radius:18px;
+    padding:26px 30px;
+    display:grid;
+    grid-template-columns:200px 1.25fr 1.2fr;
+    gap:30px;
+    align-items:center;
+    box-shadow:0 16px 36px rgba(52,18,12,.08);
+}
+
+.cs-about-img img{
+    width:175px;
+    height:125px;
+    object-fit:cover;
+    border-radius:14px;
+}
+
+.cs-about-content h2{
+    font-family:'Cormorant Garamond', serif;
+    font-size:34px;
+    margin-bottom:13px;
+    color:#2a120c;
+}
+
+.cs-about-content h2::after{
+    content:"";
+    width:38px;
+    height:2px;
+    background:#f04468;
+    display:block;
+    margin-top:9px;
+}
+
+.cs-about-content p{
+    color:#5d403b;
+    font-size:16px;
+    line-height:1.75;
+}
+
+.cs-about-points{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border-left:1px solid #ffd5dd;
+}
+
+.cs-about-point{
+    text-align:center;
+    padding:10px 18px;
+    border-right:1px solid #ffd5dd;
+}
+
+.cs-about-point:last-child{
+    border-right:none;
+}
+
+.cs-about-point i{
+    color:#f04468;
+    font-size:36px;
+    margin-bottom:14px;
+}
+
+.cs-about-point h4{
+    font-size:17px;
+    margin-bottom:8px;
+}
+
+.cs-about-point p{
+    font-size:14px;
+    line-height:1.6;
+    color:#765b55;
+}
+
+/* SMALL LAPTOP */
+
+@media(max-width:1366px){
+
+    .cs-product-page{
+        padding:28px 4.5% 55px;
+    }
+
+    .cs-product-wrap,
+    .cs-feature-area,
+    .cs-about-card{
+        max-width:1180px;
+    }
+
+    .cs-main-image{
+        height:450px;
+    }
+
+    .cs-product-card{
+        min-height:450px;
+        padding:24px 34px 22px;
+    }
+
+    .cs-product-card h1{
+        font-size:34px;
+    }
+
+    .cs-price,
+    .cs-price span,
+    #product-price{
+        font-size:22px !important;
+    }
+}
+
+/* TABLET */
+
+@media(max-width:1024px){
+
+    .cs-product-wrap,
+    .cs-feature-area{
+        grid-template-columns:1fr;
+    }
+
+    .cs-main-image{
+        height:430px;
+    }
+
+    .cs-product-card{
+        min-height:auto;
+    }
+
+    .cs-feature-box,
+    .cs-feature-box:nth-child(2){
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .cs-about-card{
+        grid-template-columns:1fr;
+        text-align:center;
+    }
+
+    .cs-about-img img{
+        margin:0 auto;
+    }
+
+    .cs-about-points{
+        border-left:none;
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .cs-product-page{
+        padding:16px 4% 45px;
+    }
+
+    .cs-product-wrap{
+        display:block;
+        width:100%;
+        max-width:100%;
+    }
+
+    .cs-product-gallery{
+        display:flex;
+        flex-direction:column-reverse;
+        gap:12px;
+        width:100%;
+        margin-bottom:16px;
+    }
+
+    .cs-main-image{
+        width:100%;
+        height:310px;
+        border-radius:15px;
+        overflow:hidden;
+    }
+
+    .cs-main-image img{
+        width:100%;
+        height:100%;
+        object-fit:cover;
+    }
+
+    .cs-thumbs{
+        width:100%;
+        display:flex;
+        flex-direction:row;
+        gap:9px;
+        overflow-x:auto;
+        padding-bottom:6px;
+    }
+
+    .cs-thumbs img{
+        min-width:58px;
+        width:58px;
+        height:58px;
+        border-radius:8px;
+    }
+
+    .cs-thumb-more{
+        display:none;
+    }
+
+    .cs-product-card{
+        width:100%;
+        min-height:auto;
+        padding:22px 16px;
+        border-radius:18px;
+    }
+
+    .cs-product-card h1{
+        font-size:31px;
+        line-height:1;
+    }
+
+    .cs-price,
+    .cs-price span,
+    #product-price{
+        font-size:22px !important;
+    }
+
+    .cs-tax{
+        font-size:14px;
+    }
+
+    .cs-price-row{
+        gap:8px;
+        align-items:center;
+        flex-wrap:wrap;
+    }
+
+    .cs-weight-row{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:9px;
+    }
+
+    .cs-option-btn{
+        width:100%;
+        min-width:unset;
+    }
+
+    .cs-message-box input{
+        height:44px;
+    }
+
+    .cs-cart-btn{
+        width:100%;
+        height:48px;
+        margin-top:15px;
+    }
+
+    .cs-feature-area{
+        display:block;
+        margin-top:18px;
+    }
+
+    .cs-feature-box{
+        grid-template-columns:1fr;
+        margin-bottom:14px;
+    }
+
+    .cs-feature-item{
+        border-right:none;
+        border-bottom:1px solid #ffe1e6;
+    }
+
+    .cs-about-card{
+        grid-template-columns:1fr;
+        text-align:center;
+        padding:24px 18px;
+    }
+
+    .cs-about-img img{
+        margin:0 auto;
+    }
+
+    .cs-about-points{
+        grid-template-columns:1fr;
+        border-left:none;
+    }
+
+    .cs-about-point{
+        border-right:none;
+        border-bottom:1px solid #ffe1e6;
+    }
+}
+
+
+
