@@ -5,78 +5,663 @@
 
 {% block content %}
 
+<style>
+    /* =========================================
+       PAGE
+    ========================================= */
+
+    .all-recipes-page {
+        width: 100%;
+        margin: 0;
+        padding: 35px 4% 60px;
+        background: #fff1ec;
+        box-sizing: border-box;
+    }
+
+    .all-recipes-page,
+    .all-recipes-page * {
+        box-sizing: border-box;
+    }
+
+    /* =========================================
+       PAGE TITLE
+    ========================================= */
+
+    .recipe-title {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .recipe-title h2 {
+        margin: 0;
+        color: #3b1811;
+        font-size: 40px;
+        line-height: 1.2;
+        font-weight: 600;
+    }
+
+    .title-divider {
+        margin-top: 8px;
+    }
+
+    /* =========================================
+       CATEGORY FILTER
+    ========================================= */
+
+    .cake-filter-menu {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 25px;
+        margin-bottom: 35px;
+    }
+
+    .cake-filter-menu a {
+        color: #351811;
+        font-size: 17px;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .cake-filter-menu a:hover,
+    .cake-filter-menu a.active {
+        color: #ff6179;
+    }
+
+    /* =========================================
+       CATEGORY INTRODUCTION
+    ========================================= */
+
+    .category-intro {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto 45px;
+
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: center;
+        gap: 35px;
+    }
+
+    .category-intro-content {
+        min-width: 0;
+    }
+
+    .category-intro-content span {
+        display: block;
+        margin-bottom: 12px;
+        color: #ff6179;
+        font-size: 13px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+    }
+
+    .category-intro-content h2 {
+        margin: 0 0 18px;
+        color: #351811;
+        font-size: 38px;
+        line-height: 1.2;
+    }
+
+    .category-intro-content p {
+        margin: 0 0 25px;
+        color: #755c54;
+        font-size: 17px;
+        line-height: 1.8;
+    }
+
+    .category-intro-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        min-width: 175px;
+        padding: 13px 24px;
+
+        border-radius: 30px;
+        background: #ff6179;
+        color: #ffffff;
+
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .category-intro-video {
+        width: 100%;
+        overflow: hidden;
+        border-radius: 22px;
+    }
+
+    .category-intro-video video {
+        display: block;
+        width: 100%;
+        height: 420px;
+        object-fit: cover;
+    }
+
+    /* =========================================
+       PRODUCT GRID
+    ========================================= */
+
+    .cake-list-grid {
+        width: 100%;
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 0;
+
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 25px;
+        align-items: stretch;
+    }
+
+    /* =========================================
+       PRODUCT CARD
+    ========================================= */
+
+    .cake-list-card {
+        width: 100%;
+        min-width: 0;
+        min-height: 390px;
+        margin: 0;
+        padding: 14px;
+
+        display: flex;
+        flex-direction: column;
+
+        background: #ffffff;
+        border: 1px solid #f1dfd8;
+        border-radius: 18px;
+        overflow: hidden;
+
+        box-shadow: 0 6px 18px rgba(47, 25, 18, 0.08);
+    }
+
+    .cake-list-card > a {
+        display: block;
+        width: 100%;
+        text-decoration: none;
+        flex-shrink: 0;
+    }
+
+    .cake-list-card img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 13px;
+    }
+
+    .cake-list-card h3 {
+        width: 100%;
+        min-height: 54px;
+        margin: 14px 2px 15px;
+
+        font-size: 19px;
+        line-height: 1.4;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .cake-list-card h3 a {
+        color: #351811;
+        text-decoration: none;
+    }
+
+    .card-footer {
+        width: 100%;
+        margin-top: auto;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .cake-price {
+        margin: 0;
+        color: #351811;
+        font-size: 23px;
+        line-height: 1;
+        font-weight: 700;
+    }
+
+    .add-cart-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+
+        padding: 11px 13px;
+
+        border-radius: 10px;
+        background: #ff6179;
+        color: #ffffff;
+
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .cake-empty-message {
+        grid-column: 1 / -1;
+        padding: 40px 15px;
+        text-align: center;
+        color: #745b52;
+    }
+
+    /* =========================================
+       TABLET
+    ========================================= */
+
+    @media screen and (max-width: 1024px) {
+        .cake-list-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .category-intro-content h2 {
+            font-size: 32px;
+        }
+    }
+
+    /* =========================================
+       MOBILE — THREE PRODUCTS PER ROW
+    ========================================= */
+
+    @media screen and (max-width: 600px) {
+        .all-recipes-page {
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 25px 6px 40px !important;
+            overflow: hidden;
+        }
+
+        .recipe-title {
+            margin-bottom: 24px;
+        }
+
+        .recipe-title h2 {
+            font-size: 34px;
+        }
+
+        /* Category menu */
+
+        .cake-filter-menu {
+            gap: 18px 22px;
+            margin-bottom: 30px;
+            padding: 0 8px;
+        }
+
+        .cake-filter-menu a {
+            font-size: 15px;
+        }
+
+        /* Category introduction */
+
+        .category-intro {
+            width: 100%;
+            margin-bottom: 30px;
+            padding: 0 8px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .category-intro-content {
+            width: 100%;
+            text-align: center;
+        }
+
+        .category-intro-content span {
+            font-size: 11px;
+            line-height: 1.8;
+            letter-spacing: 4px;
+        }
+
+        .category-intro-content h2 {
+            font-size: 28px;
+            line-height: 1.3;
+        }
+
+        .category-intro-content p {
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .category-intro-video {
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .category-intro-video video {
+            width: 100%;
+            height: 300px;
+        }
+
+        /* Product grid */
+
+        .cake-list-grid {
+            width: 100% !important;
+            max-width: none !important;
+            min-width: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+
+            display: grid !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+
+            column-gap: 6px !important;
+            row-gap: 12px !important;
+
+            align-items: stretch !important;
+            justify-content: stretch !important;
+        }
+
+        /* Equal product cards */
+
+        .cake-list-grid > .cake-list-card {
+            width: 100% !important;
+            min-width: 0 !important;
+            max-width: none !important;
+            height: 285px !important;
+            min-height: 285px !important;
+            margin: 0 !important;
+            padding: 5px !important;
+
+            display: flex !important;
+            flex-direction: column !important;
+
+            background: #ffffff;
+            border: 1px solid #f1dfd8;
+            border-radius: 10px;
+            overflow: hidden;
+
+            box-shadow: 0 3px 10px rgba(47, 25, 18, 0.08);
+        }
+
+        /* Image */
+
+        .cake-list-card > a {
+            display: block;
+            width: 100% !important;
+            min-width: 0 !important;
+            flex-shrink: 0;
+        }
+
+        .cake-list-card img {
+            display: block;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 125px !important;
+
+            aspect-ratio: auto !important;
+            object-fit: cover;
+
+            border-radius: 7px;
+        }
+
+        /* Cake name */
+
+        .cake-list-card h3 {
+            width: 100%;
+            height: 50px !important;
+            min-height: 50px !important;
+            max-height: 50px !important;
+
+            margin: 8px 2px 4px !important;
+            padding: 0 !important;
+
+            color: #351811;
+            font-size: 12px !important;
+            line-height: 20px !important;
+            font-weight: 600;
+            text-align: left;
+
+            display: -webkit-box !important;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+        }
+
+        .cake-list-card h3 a {
+            color: #351811;
+            text-decoration: none;
+        }
+
+        /* Price and button area */
+
+        .card-footer {
+            width: 100%;
+            margin-top: auto !important;
+
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            justify-content: flex-end !important;
+
+            gap: 7px;
+        }
+
+        .cake-price {
+            width: 100%;
+            margin: 0 !important;
+
+            color: #351811;
+            font-size: 16px !important;
+            line-height: 20px !important;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .add-cart-btn {
+            width: 100%;
+            min-width: 0;
+            height: 38px;
+            padding: 5px 2px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+
+            border-radius: 8px;
+            background: #ff6179;
+            color: #ffffff;
+
+            font-size: 10px;
+            line-height: 1;
+            font-weight: 600;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .add-cart-btn i {
+            font-size: 9px;
+        }
+    }
+
+    /* =========================================
+       VERY SMALL MOBILE
+    ========================================= */
+
+    @media screen and (max-width: 360px) {
+        .all-recipes-page {
+            padding-left: 4px !important;
+            padding-right: 4px !important;
+        }
+
+        .cake-list-grid {
+            column-gap: 4px !important;
+            row-gap: 10px !important;
+        }
+
+        .cake-list-grid > .cake-list-card {
+            height: 275px !important;
+            min-height: 275px !important;
+            padding: 4px !important;
+        }
+
+        .cake-list-card img {
+            height: 118px !important;
+        }
+
+        .cake-list-card h3 {
+            height: 48px !important;
+            min-height: 48px !important;
+            max-height: 48px !important;
+
+            font-size: 11px !important;
+            line-height: 19px !important;
+        }
+
+        .cake-price {
+            font-size: 14px !important;
+        }
+
+        .add-cart-btn {
+            height: 36px;
+            font-size: 9px;
+        }
+
+        .add-cart-btn i {
+            font-size: 8px;
+        }
+    }
+</style>
+
 <section class="all-recipes-page">
 
     {% if not selected_category %}
-<div class="section-title recipe-title">
-    <h2>ALL CAKES</h2>
-    <div class="title-divider">
-        <span>🧁</span>
-    </div>
-</div>
-{% endif %}
+        <div class="section-title recipe-title">
+            <h2>ALL CAKES</h2>
+
+            <div class="title-divider">
+                <span>🧁</span>
+            </div>
+        </div>
+    {% endif %}
+
     <div class="cake-filter-menu">
-        <a href="{% url 'categories' %}"
-           class="{% if not selected_category %}active{% endif %}">
+
+        <a
+            href="{% url 'categories' %}"
+            class="{% if not selected_category %}active{% endif %}"
+        >
             All
         </a>
 
         {% for category in categories %}
-        <a href="{% url 'categories' %}?category={{ category.slug }}"
-           class="{% if selected_category == category.slug %}active{% endif %}">
-            {{ category.name }}
-        </a>
+            <a
+                href="{% url 'categories' %}?category={{ category.slug }}"
+                class="{% if selected_category == category.slug %}active{% endif %}"
+            >
+                {{ category.name }}
+            </a>
         {% endfor %}
+
     </div>
 
     {% if selected_category_obj %}
-    <section class="category-intro">
-        <div class="category-intro-content">
-            <span>{{ selected_category_obj.intro_subtitle }}</span>
-            <h2>{{ selected_category_obj.intro_title|default:selected_category_obj.name }}</h2>
-            <p>{{ selected_category_obj.intro_description }}</p>
+        <section class="category-intro">
 
-<a href="#cakes" class="category-intro-btn">
-    Explore Cakes
-</a>
-        </div>
+            <div class="category-intro-content">
 
-        {% if selected_category_obj.intro_video %}
-        <div class="category-intro-video">
-            <video autoplay muted loop playsinline>
-                <source src="{{ selected_category_obj.intro_video.url }}" type="video/mp4">
-            </video>
-        </div>
-        {% endif %}
-    </section>
+                {% if selected_category_obj.intro_subtitle %}
+                    <span>
+                        {{ selected_category_obj.intro_subtitle }}
+                    </span>
+                {% endif %}
+
+                <h2>
+                    {{ selected_category_obj.intro_title|default:selected_category_obj.name }}
+                </h2>
+
+                {% if selected_category_obj.intro_description %}
+                    <p>
+                        {{ selected_category_obj.intro_description }}
+                    </p>
+                {% endif %}
+
+                <a href="#cakes" class="category-intro-btn">
+                    Explore Cakes
+                </a>
+
+            </div>
+
+            {% if selected_category_obj.intro_video %}
+                <div class="category-intro-video">
+
+                    <video autoplay muted loop playsinline>
+                        <source
+                            src="{{ selected_category_obj.intro_video.url }}"
+                            type="video/mp4"
+                        >
+                    </video>
+
+                </div>
+            {% endif %}
+
+        </section>
     {% endif %}
 
     <div id="cakes" class="cake-list-grid">
 
         {% for product in products %}
-        <div class="cake-list-card">
 
-            <a href="{% url 'product_detail' product.slug %}">
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            </a>
+            <article class="cake-list-card">
 
-            <h3>
                 <a href="{% url 'product_detail' product.slug %}">
-                    {{ product.name }}
+
+                    {% if product.image %}
+                        <img
+                            src="{{ product.image.url }}"
+                            alt="{{ product.name }}"
+                            loading="lazy"
+                        >
+                    {% endif %}
+
                 </a>
-            </h3>
 
-            <div class="card-footer">
-                <p class="cake-price">₹{{ product.price|floatformat:0 }}</p>
+                <h3>
+                    <a href="{% url 'product_detail' product.slug %}">
+                        {{ product.name }}
+                    </a>
+                </h3>
 
-                <a href="{% url 'product_detail' product.slug %}" class="add-cart-btn">
-                    Add to Cart <i class="fa-solid fa-cart-shopping"></i>
-                </a>
-            </div>
+                <div class="card-footer">
 
-        </div>
+                    <p class="cake-price">
+                        ₹{{ product.price|floatformat:0 }}
+                    </p>
+
+                    <a
+                        href="{% url 'product_detail' product.slug %}"
+                        class="add-cart-btn"
+                    >
+                        Add to Cart
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+
+                </div>
+
+            </article>
+
         {% empty %}
-        <p>No cakes found in this category.</p>
+
+            <p class="cake-empty-message">
+                No cakes found in this category.
+            </p>
+
         {% endfor %}
 
     </div>

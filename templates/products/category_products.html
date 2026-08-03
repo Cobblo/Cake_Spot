@@ -4,6 +4,281 @@
 
 {% block content %}
 
+<style>
+    /* =========================================
+       CATEGORY PAGE
+    ========================================= */
+
+    .category-page {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 40px 30px 60px !important;
+        background: #fff6f2;
+        box-sizing: border-box;
+    }
+
+    .category-page,
+    .category-page * {
+        box-sizing: border-box;
+    }
+
+    .category-page .section-title {
+        width: 100%;
+        text-align: center;
+        margin: 0 0 35px;
+    }
+
+    .category-page .section-title h2 {
+        margin: 0;
+        color: #2b1b16;
+        font-size: 38px;
+        line-height: 1.2;
+        font-weight: 600;
+    }
+
+    /* =========================================
+       PRODUCT GRID
+    ========================================= */
+
+    .category-page-grid {
+        width: 100% !important;
+        max-width: 1300px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 25px !important;
+
+        justify-content: stretch !important;
+        align-items: stretch;
+    }
+
+    /* =========================================
+       PRODUCT CARD
+    ========================================= */
+
+    .category-page-card {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        margin: 0 !important;
+
+        background: #ffffff;
+        border: 1px solid #f1e2dc;
+        border-radius: 18px;
+        padding: 15px;
+        overflow: hidden;
+        text-align: left;
+
+        box-shadow: 0 6px 18px rgba(43, 27, 22, 0.08);
+
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease;
+    }
+
+    .category-page-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(43, 27, 22, 0.13);
+    }
+
+    .category-page-card > a {
+        display: block;
+        width: 100%;
+        text-decoration: none;
+    }
+
+    .category-page-card img {
+        display: block;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 14px;
+    }
+
+    .category-page-card h3 {
+        margin: 15px 2px 8px;
+        color: #2b1b16;
+        font-size: 20px;
+        line-height: 1.35;
+        font-weight: 600;
+        overflow-wrap: anywhere;
+    }
+
+    .category-page-card .price {
+        margin: 0 2px 5px;
+        color: #2b1b16;
+        font-size: 23px;
+        line-height: 1.2;
+        font-weight: 700;
+    }
+
+    .category-empty-message {
+        grid-column: 1 / -1;
+        text-align: center;
+        color: #6e5a52;
+        font-size: 18px;
+        padding: 40px 15px;
+    }
+
+    /* =========================================
+       TABLET
+    ========================================= */
+
+    @media screen and (max-width: 1024px) {
+
+        .category-page {
+            padding: 35px 20px 50px !important;
+        }
+
+        .category-page-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            gap: 18px !important;
+        }
+
+        .category-page .section-title h2 {
+            font-size: 32px;
+        }
+    }
+
+    /* =========================================
+       MOBILE — 3 PRODUCTS PER ROW
+    ========================================= */
+
+    @media screen and (max-width: 600px) {
+
+        .category-page {
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 20px 6px 40px !important;
+            overflow: hidden;
+        }
+
+        .category-page .section-title {
+            margin-bottom: 18px;
+        }
+
+        .category-page .section-title h2 {
+            font-size: 24px;
+        }
+
+        .category-page-grid {
+            width: 100% !important;
+            max-width: none !important;
+            min-width: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+
+            display: grid !important;
+            grid-template-columns:
+                minmax(0, 1fr)
+                minmax(0, 1fr)
+                minmax(0, 1fr) !important;
+
+            column-gap: 6px !important;
+            row-gap: 12px !important;
+
+            justify-content: stretch !important;
+            align-items: start !important;
+        }
+
+        .category-page-grid > .category-page-card {
+            width: auto !important;
+            min-width: 0 !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 5px !important;
+
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(43, 27, 22, 0.08);
+
+            display: block !important;
+        }
+
+        .category-page-card:hover {
+            transform: none;
+        }
+
+        .category-page-card > a {
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        .category-page-card img {
+            display: block;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: auto !important;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 7px;
+        }
+
+        .category-page-card h3 {
+            margin: 7px 2px 4px;
+            min-height: 31px;
+            color: #2b1b16;
+            font-size: 11px !important;
+            line-height: 1.3;
+            font-weight: 600;
+
+            display: -webkit-box;
+            line-clamp: 2;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .category-page-card .price {
+            margin: 4px 2px 6px;
+            color: #2b1b16;
+            font-size: 15px !important;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        .category-empty-message {
+            font-size: 15px;
+            padding: 25px 10px;
+        }
+    }
+
+    /* =========================================
+       VERY SMALL MOBILE
+    ========================================= */
+
+    @media screen and (max-width: 360px) {
+
+        .category-page {
+            padding-left: 4px !important;
+            padding-right: 4px !important;
+        }
+
+        .category-page-grid {
+            column-gap: 4px !important;
+            row-gap: 10px !important;
+        }
+
+        .category-page-grid > .category-page-card {
+            padding: 4px !important;
+        }
+
+        .category-page-card h3 {
+            font-size: 10px !important;
+            min-height: 27px;
+        }
+
+        .category-page-card .price {
+            font-size: 14px !important;
+        }
+    }
+</style>
+
 <section class="category-page">
 
     <div class="section-title">
@@ -14,21 +289,33 @@
 
         {% for product in products %}
 
-        <div class="category-page-card">
+            <article class="category-page-card">
 
-            <a href="{% url 'product_detail' product.slug %}">
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            </a>
+                <a href="{% url 'product_detail' product.slug %}">
 
-            <h3>{{ product.name }}</h3>
+                    {% if product.image %}
+                        <img
+                            src="{{ product.image.url }}"
+                            alt="{{ product.name }}"
+                            loading="lazy"
+                        >
+                    {% endif %}
 
-            <p>₹{{ product.price|floatformat:0 }}</p>
+                </a>
 
-        </div>
+                <h3>{{ product.name }}</h3>
+
+                <p class="price">
+                    ₹{{ product.price|floatformat:0 }}
+                </p>
+
+            </article>
 
         {% empty %}
 
-        <p>No cakes found in this category.</p>
+            <p class="category-empty-message">
+                No cakes found in this category.
+            </p>
 
         {% endfor %}
 
