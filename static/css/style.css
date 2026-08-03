@@ -393,6 +393,18 @@
         font-size:14px;
     }
 
+    .footer-bottom .footer-credit{
+        margin-top:8px;
+    }
+
+    .footer-bottom .footer-credit a,
+    .footer-bottom .footer-credit a:visited,
+    .footer-bottom .footer-credit a:hover,
+    .footer-bottom .footer-credit a:active{
+        color:#ffffff !important;
+        text-decoration:underline;
+    }
+
     /* TABLET */
     @media(max-width:1024px){
         .footer-inner{

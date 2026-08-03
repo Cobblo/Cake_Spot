@@ -49,15 +49,7 @@
             <a href="{% url 'about' %}">ABOUT</a>
             <a href="{% url 'categories' %}">CAKES</a>
 
-            <div class="nav-dropdown">
-                <a href="#" class="nav-drop-link" id="occasionBtn">OCCASIONS</a>
-
-                <div class="nav-dropdown-menu" id="occasionMenu">
-                    <a href="{% url 'categories' %}?category=birthday-cakes">Birthday Cakes</a>
-                    <a href="{% url 'categories' %}?category=wedding-cake">Wedding Cakes</a>
-                    <a href="{% url 'categories' %}?category=anniversary-cake">Anniversary Cakes</a>
-                </div>
-            </div>
+            
 
             <a href="{% url 'custom_cakes' %}">CUSTOM CAKES</a>
             <a href="{% url 'branches' %}">LOCATIONS</a>
@@ -212,6 +204,7 @@
 
     <div class="footer-bottom">
         <p>© 2026 Cake Spot. All Rights Reserved.</p>
+        <p class="footer-credit">Developed by <a href="https://www.zendigitus.com" target="_blank" rel="noopener noreferrer">Zendigitus</a></p>
     </div>
 </footer>
 
